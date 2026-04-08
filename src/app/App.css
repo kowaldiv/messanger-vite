@@ -1,0 +1,28 @@
+@import "tailwindcss";
+@import "@fontsource/montserrat";
+
+:root {
+  --background: #ededed;
+  --foreground: #0f0f0f;
+}
+
+@theme inline {
+  --color-border: #403552;
+  --color-primary: #7c3aed;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0f0f0f;
+    --foreground: #ededed;
+  }
+}
+
+html {
+  font-family: "Montserrat", system-ui, sans-serif;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
