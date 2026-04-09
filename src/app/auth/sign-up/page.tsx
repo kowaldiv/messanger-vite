@@ -7,7 +7,7 @@ import AuthLayout from "../layout";
 import { useAuthStore } from "@/src/stores/auth-store";
 
 export default function SignUp() {
-  const isRequestPending = useAuthStore(state => state.isRequestPending);
+  const [isRequestPending, setIsRequestPending] = useState(false);
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [email, setEmail] = useState<string>("");
@@ -16,6 +16,7 @@ export default function SignUp() {
 
   async function handleSignUp(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setIsRequestPending(true);
     try {
       if (password !== passwordAgain) {
         throw new Error("Пароли не совпадают");
@@ -24,6 +25,7 @@ export default function SignUp() {
         throw new Error("Пароль не короче 6 символов (требование API)");
       }
       const result = await useAuthStore.getState().register(email, password);
+      setIsRequestPending(false);
       if (!result.success) {
         throw new Error(result.userMessage);
       } else {

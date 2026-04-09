@@ -3,6 +3,7 @@ export function Input({
   type,
   placeholder,
   onChange,
+  value,
   onClick,
   required,
   ref,
@@ -11,8 +12,9 @@ export function Input({
 }: {
   ref?: React.Ref<HTMLInputElement>;
   className?: string;
-  type?: "text" | "email" | "password";
+  type?: "text" | "email" | "password" | "file";
   placeholder?: string;
+  value?: string | null;
   onChange?: (value: string) => void;
   onClick?: () => void;
   required?: boolean;
@@ -26,6 +28,7 @@ export function Input({
       ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
       type={type ? type : "text"}
       placeholder={placeholder}
+      value={value ? value : ""}
       onChange={(e) => onChange?.(e.target.value)}
       onClick={onClick}
       required={required}

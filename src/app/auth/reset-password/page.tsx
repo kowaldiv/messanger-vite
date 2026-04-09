@@ -11,7 +11,7 @@ export function ResetPassword() {
   const resetToken =
     typeof params.resetToken === "string" ? params.resetToken : null;
 
-  const isRequestPending = useAuthStore(state => state.isRequestPending);
+  const [isRequestPending, setIsRequestPending] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [password, setPassword] = useState<string>("");
   const [passwordAgain, setPasswordAgain] = useState<string>("");
@@ -19,6 +19,7 @@ export function ResetPassword() {
 
   async function resetPassword(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setIsRequestPending(true);
     try {
       if (!resetToken) {
         throw new Error("Ссылка для востановления пароля не действительна");
@@ -32,6 +33,7 @@ export function ResetPassword() {
       const result = await useAuthStore
         .getState()
         .resetPassword(password, resetToken);
+        setIsRequestPending(false);
       if (!result.success) {
         throw new Error(result.userMessage);
       } else {

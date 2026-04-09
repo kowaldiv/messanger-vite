@@ -8,7 +8,7 @@ import AuthLayout from "../layout";
 import { useAuthStore } from "@/src/stores/auth-store";
 
 export default function SignIn() {
-  const isRequestPending = useAuthStore(state => state.isRequestPending);
+  const [isRequestPending, setIsRequestPending] = useState(false);
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [email, setEmail] = useState<string>("");
@@ -16,7 +16,9 @@ export default function SignIn() {
 
   async function handleSignIn(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setIsRequestPending(true);
     const result = await useAuthStore.getState().login(email, password);
+    setIsRequestPending(false);
     if (!result.success) {
       setErrorMessage(result.userMessage);
     } else {
@@ -58,12 +60,12 @@ export default function SignIn() {
           </Link>
         </div>
         {errorMessage ? (
-            <p className="text-center text-sm sm:text-base text-red-600 mt-2">
-              {errorMessage}
-            </p>
-          ) : (
-            ""
-          )}
+          <p className="text-center text-sm sm:text-base text-red-600 mt-2">
+            {errorMessage}
+          </p>
+        ) : (
+          ""
+        )}
         <Button
           type="submit"
           value="Sign-in"

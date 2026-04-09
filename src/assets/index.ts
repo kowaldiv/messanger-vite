@@ -1,17 +1,29 @@
 import logo from "@/public/logo.png";
 import background from "@/public/background.svg";
-import backgroundLoght from "@/public/background-light.svg";
+import backgroundLight from "@/public/background-light.svg";
 import menu from "@/public/menu.svg";
-import back from "@/public/back.svg";
+import arrow from "@/public/back.svg";
 import avatar from "@/public/avatar.png";
+import avatarWhite from "@/public/avatar-white.png";
+import favorites from "@/public/favorites.png";
+import exit from "@/public/exit.png";
+import devices from "@/public/devices.png";
+import trashBin from "@/public/trash-bin.png";
+import vova from "@/public/vova-cat.png";
 
 export const images = {
-  logo: logo,
-  background: background,
-  backgroundLight: backgroundLoght,
+  logo,
+  background,
+  backgroundLight,
   icons: {
-    menu: menu,
-    back: back,
-    avatar: avatar,
+    menu,
+    arrow,
+    avatar,
+    avatarWhite,
+    favorites,
+    exit,
+    vova,
+    devices,
+    trashBin,
   },
 };

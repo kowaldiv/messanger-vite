@@ -7,14 +7,16 @@ import AuthLayout from "../layout";
 import { useAuthStore } from "@/src/stores/auth-store";
 
 export default function ForgotPassword() {
-  const isRequestPending = useAuthStore(state => state.isRequestPending);
+  const [isRequestPending, setIsRequestPending] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [email, setEmail] = useState<string>("");
   const [isSuccess, setIsSuccess] = useState(false);
 
   async function handleForgotPassword(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setIsRequestPending(true);
     const result = await useAuthStore.getState().forgotPassword(email);
+    setIsRequestPending(true);
     if (!result.success) {
       setErrorMessage(result.userMessage);
       return;

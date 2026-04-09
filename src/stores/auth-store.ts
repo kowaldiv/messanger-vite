@@ -6,8 +6,6 @@ import { forgotPassword } from "../api/auth/forgot-password";
 import { resetPassword } from "../api/auth/reset-password";
 
 interface AuthStore {
-  isRequestPending: boolean;
-
   login: (
     email: string,
     password: string,
@@ -31,11 +29,8 @@ interface AuthStore {
   ) => Promise<{ success: true } | { success: false; userMessage: string }>;
 }
 
-export const useAuthStore = create<AuthStore>((set) => ({
-  isRequestPending: false,
-
+export const useAuthStore = create<AuthStore>(() => ({
   login: async (email, password) => {
-    set({ isRequestPending: true });
     try {
       const response = await signIn(email, password);
 
@@ -44,10 +39,8 @@ export const useAuthStore = create<AuthStore>((set) => ({
         throw new Error(resultOfCheckResponse.userMessage);
       }
 
-      set({ isRequestPending: false });
       return { success: true };
     } catch (err) {
-      set({ isRequestPending: false });
       return {
         success: false,
         userMessage: (err as Error).message || "Ошибка при входе!",
@@ -56,7 +49,6 @@ export const useAuthStore = create<AuthStore>((set) => ({
   },
 
   register: async (email, password) => {
-    set({ isRequestPending: true });
     try {
       const response = await signUp(email, password);
 
@@ -65,10 +57,8 @@ export const useAuthStore = create<AuthStore>((set) => ({
         throw new Error(resultOfCheckResponse.userMessage);
       }
 
-      set({ isRequestPending: false });
       return { success: true };
     } catch (err) {
-      set({ isRequestPending: false });
       return {
         success: false,
         userMessage: (err as Error).message || "Ошибка при Создании акканута!",
@@ -77,7 +67,6 @@ export const useAuthStore = create<AuthStore>((set) => ({
   },
 
   forgotPassword: async (email) => {
-    set({ isRequestPending: true });
     try {
       const response = await forgotPassword(email);
 
@@ -86,10 +75,8 @@ export const useAuthStore = create<AuthStore>((set) => ({
         throw new Error(resultOfCheckResponse.userMessage);
       }
 
-      set({ isRequestPending: false });
       return { success: true };
     } catch (err) {
-      set({ isRequestPending: false });
       return {
         success: false,
         userMessage: (err as Error).message || "Ошибка при Создании акканута!",
@@ -98,7 +85,6 @@ export const useAuthStore = create<AuthStore>((set) => ({
   },
 
   resetPassword: async (newPassword, resetPasswordToken) => {
-    set({ isRequestPending: true });
     try {
       const response = await resetPassword(newPassword, resetPasswordToken);
 
@@ -107,10 +93,8 @@ export const useAuthStore = create<AuthStore>((set) => ({
         throw new Error(resultOfCheckResponse.userMessage);
       }
 
-      set({ isRequestPending: false });
       return { success: true };
     } catch (err) {
-      set({ isRequestPending: false });
       return {
         success: false,
         userMessage: (err as Error).message || "Ошибка при Создании акканута!",
