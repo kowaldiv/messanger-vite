@@ -9,6 +9,9 @@ export function Input({
   ref,
   disabled,
   onKeyDown,
+  inputMode,
+  maxLength,
+  onPaste,
 }: {
   ref?: React.Ref<HTMLInputElement>;
   className?: string;
@@ -20,6 +23,9 @@ export function Input({
   required?: boolean;
   disabled?: boolean;
   onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
+  inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
+  maxLength?: number;
+  onPaste?: React.ClipboardEventHandler<HTMLInputElement>;
 }) {
   return (
     <input
@@ -28,12 +34,15 @@ export function Input({
       ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
       type={type ? type : "text"}
       placeholder={placeholder}
-      value={value ? value : ""}
+      value={value ? value : undefined}
       onChange={(e) => onChange?.(e.target.value)}
       onClick={onClick}
       required={required}
       disabled={disabled}
       onKeyDown={onKeyDown}
+      inputMode={inputMode}
+      maxLength={maxLength}
+      onPaste={onPaste}
     />
   );
 }

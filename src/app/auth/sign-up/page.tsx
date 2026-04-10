@@ -29,7 +29,7 @@ export default function SignUp() {
       if (!result.success) {
         throw new Error(result.userMessage);
       } else {
-        navigate(DASHBOARD_PAGES.HOME);
+        navigate(DASHBOARD_PAGES.EMAIL_VERIFICATION);
       }
     } catch (err) {
       setErrorMessage((err as Error).message || "ошибка при регистрации");

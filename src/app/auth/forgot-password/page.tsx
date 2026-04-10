@@ -16,7 +16,7 @@ export default function ForgotPassword() {
     e.preventDefault();
     setIsRequestPending(true);
     const result = await useAuthStore.getState().forgotPassword(email);
-    setIsRequestPending(true);
+    setIsRequestPending(false);
     if (!result.success) {
       setErrorMessage(result.userMessage);
       return;
