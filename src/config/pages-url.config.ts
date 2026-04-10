@@ -9,7 +9,7 @@ class DASHBOARD {
 
   SIGN_IN = this.withRoot("/sign-in");
   SIGN_UP = this.withRoot("/sign-up");
-  CODE_VERIFICATION = this.withRoot("/code-verification");
+  EMAIL_VERIFICATION = this.withRoot("/email-verification");
 
   FORGOT_PASSWORD = this.withRoot("/forgot-password");
   RESET_PASSWORD = this.withRoot("/reset-password");

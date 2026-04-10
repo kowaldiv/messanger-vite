@@ -33,7 +33,7 @@ export function ResetPassword() {
       const result = await useAuthStore
         .getState()
         .resetPassword(password, resetToken);
-        setIsRequestPending(false);
+      setIsRequestPending(false);
       if (!result.success) {
         throw new Error(result.userMessage);
       } else {
