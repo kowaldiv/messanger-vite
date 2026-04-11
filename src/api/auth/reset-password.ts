@@ -1,8 +1,8 @@
-export function resetPassword(
+export async function resetPassword(
   password: string,
   resetPasswordToken: string,
 ): Promise<Response> {
-  const response = fetch("/api/auth/reset-password", {
+  const response = await fetch("/api/auth/reset-password", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

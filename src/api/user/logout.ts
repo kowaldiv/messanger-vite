@@ -1,5 +1,5 @@
-export async function getUserInfo(): Promise<Response> {
-  const response = fetch("/api/user/me", {
+export async function logout(): Promise<Response> {
+  const response = await fetch("/api/user/logout", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
