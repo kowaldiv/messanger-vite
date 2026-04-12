@@ -1,7 +1,7 @@
 import { images } from "@/src/assets";
 import { Button } from "@/src/components/button";
 import { Input } from "@/src/components/input";
-import { Profile } from "./panels/Profile";
+import { Profile } from "./panels/profile/Profile";
 import { ProfileEditor } from "./panels/ProfileEditor/ProfileEditor";
 import { usePanelStore } from "@/src/stores/panel-store";
 

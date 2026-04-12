@@ -5,6 +5,7 @@ import { UserInfoDto } from "../api/user/dto/get-user-info-response.dto";
 import { uploadNewAvatar } from "../api/user/upload-new-avatar";
 import { deleteAvatar } from "../api/user/delete-avatar";
 import { updateUserProfileInfo } from "../api/user/update-user-profile-info";
+import { logout } from "../api/user/logout";
 
 interface UserStore {
   userId: string | null;
@@ -37,6 +38,10 @@ interface UserStore {
     lastName?: string;
     about?: string;
   }) => Promise<{ success: true } | { success: false; userMessage: string }>;
+
+  logout: () => Promise<
+    { success: true } | { success: false; userMessage: string }
+  >;
 }
 
 export const useUserStore = create<UserStore>((set) => ({
@@ -143,6 +148,24 @@ export const useUserStore = create<UserStore>((set) => ({
         lastName,
         about,
       });
+      return { success: true };
+    } catch (err) {
+      return {
+        success: false,
+        userMessage: (err as Error).message || "Ошибка при загрузке аватара!",
+      };
+    }
+  },
+
+  logout: async () => {
+    try {
+      const response = await logout();
+
+      const result = await checkResponse(response);
+      if (!result.success) {
+        throw new Error(result.userMessage);
+      }
+
       return { success: true };
     } catch (err) {
       return {

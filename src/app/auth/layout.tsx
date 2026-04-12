@@ -1,4 +1,3 @@
-"use client";
 // TODO: удалить next-themes
 import { images } from "@/src/assets";
 
