@@ -32,11 +32,11 @@ export function AvatarPreview({
   );
 
   const handleDeleteAvatar = async () => {
-    if (!avatars || !avatars[openedAvatarIndex]) return;
+    if (!avatars || !avatars[openedAvatarIndex - 1]) return;
     setIsRequestPending(true);
     const result = await useUserStore
       .getState()
-      .deleteAvatar(avatars[openedAvatarIndex].avatarId);
+      .deleteAvatar(avatars[openedAvatarIndex - 1].avatarId);
     setIsRequestPending(false);
     if (!result.success) {
       setErrorMessage(result.userMessage);
@@ -47,9 +47,9 @@ export function AvatarPreview({
     <div className="flex w-60 h-60 relative">
       <div className="absolute flex w-full h-60 bg-black overflow-hidden">
         <div ref={imagePlaceholderRef} className="flex w-full transition">
-          {avatars?.map((avatar) => {
+          {avatars?.map((avatar, index) => {
             return (
-              <div className="min-w-full">
+              <div className="min-w-full" key={index}>
                 <img
                   src={avatar ? avatar.avatarUrl : images.icons.avatar}
                   alt="avatar"
