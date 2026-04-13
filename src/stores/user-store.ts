@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { getUserInfo } from "../api/user/get-user-info";
+import { getMyInfo } from "../api/user/get-my-info";
 import { checkResponse } from "../utils/check-response/check-response";
 import { UserInfoDto } from "../api/user/dto/get-user-info-response.dto";
 import { uploadNewAvatar } from "../api/user/upload-new-avatar";
@@ -18,7 +18,7 @@ interface UserStore {
   avatars: { avatarUrl: string; avatarId: string; order: number }[] | null;
   devices: { name: string; from: string }[] | null;
 
-  getUserInfo: () => Promise<
+  getMyInfo: () => Promise<
     { success: true } | { success: false; userMessage: string }
   >;
 
@@ -81,9 +81,9 @@ export const useUserStore = create<UserStore>((set) => ({
     { name: "Windows PC", from: "Tumen ios 26.2" },
   ],
 
-  getUserInfo: async () => {
+  getMyInfo: async () => {
     try {
-      const response = await getUserInfo();
+      const response = await getMyInfo();
 
       const result = await checkResponse(response, UserInfoDto);
       if (!result.success) {
