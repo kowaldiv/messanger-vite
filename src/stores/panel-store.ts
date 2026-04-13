@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-type Panels = "chats" | "search" | "profile" | "profile-editor";
+type Panels = "chats" | "search" | "profile" | "profile-editor" | "devices";
 
 interface PanelStore {
   panel: Panels;

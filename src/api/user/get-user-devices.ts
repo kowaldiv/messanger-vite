@@ -1,5 +1,5 @@
-export async function getUserInfo(): Promise<Response> {
-  const response = fetch("/api/user/me", {
+export async function getUserDevices(): Promise<Response> {
+  const response = fetch("/api/user/devices", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

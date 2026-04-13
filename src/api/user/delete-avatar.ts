@@ -1,5 +1,5 @@
 export async function deleteAvatar(avatarId: string): Promise<Response> {
-  const response = fetch("/api/user/delete-avatar", {
+  const response = await fetch("/api/user/delete-avatar", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

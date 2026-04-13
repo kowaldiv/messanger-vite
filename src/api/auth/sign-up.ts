@@ -1,5 +1,5 @@
-export function signUp(email: string, password: string): Promise<Response> {
-  const response = fetch("/api/auth/sign-up", {
+export async function signUp(email: string, password: string): Promise<Response> {
+  const response = await fetch("/api/auth/sign-up", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

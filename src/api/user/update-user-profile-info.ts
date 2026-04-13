@@ -9,7 +9,7 @@ export async function updateUserProfileInfo({
   lastName?: string;
   about?: string;
 }): Promise<Response> {
-  const response = fetch("/api/user/update-user-info-profile", {
+  const response = await fetch("/api/user/update-user-info-profile", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
