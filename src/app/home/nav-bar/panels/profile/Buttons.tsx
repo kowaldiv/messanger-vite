@@ -1,10 +1,13 @@
 import { images } from "@/src/assets";
 import { Button } from "@/src/components/button";
+import { DASHBOARD_PAGES } from "@/src/config/pages-url.config";
 import { usePanelStore } from "@/src/stores/panel-store";
 import { useUserStore } from "@/src/stores/user-store";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function Buttons() {
+  const navigate = useNavigate();
   const setPanel = usePanelStore.getState().setPanel;
 
   const [isRequestPending, setIsRequestPending] = useState(false);
@@ -30,7 +33,7 @@ export function Buttons() {
         img: images.icons.devices,
         alt: "Devices",
         text: "Devices",
-        onClick: () => {},
+        onClick: () => setPanel("devices"),
       },
     ],
     [
@@ -49,6 +52,8 @@ export function Buttons() {
     setIsRequestPending(false);
     if (!result.success) {
       setErrorMessage(result.userMessage);
+    } else {
+      navigate(DASHBOARD_PAGES.SIGN_IN);
     }
   };
 
