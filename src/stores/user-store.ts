@@ -52,34 +52,13 @@ interface UserStore {
 }
 
 export const useUserStore = create<UserStore>((set) => ({
-  userId: "asdlfkjhasdflkjhasdflkjhaflkjh",
-  userName: "kowaldiv",
-  firstName: "Владислав",
-  lastName: "Ефименко",
-  about: "<div>kowal</div>",
-  avatars: [
-    {
-      avatarId: "flaj;sdfh",
-      avatarUrl:
-        "https://png.pngtree.com/thumb_back/fh260/background/20230610/pngtree-picture-of-a-blue-bird-on-a-black-background-image_2937385.jpg",
-      order: 1,
-    },
-    {
-      avatarId: "flaj;sdfh",
-      avatarUrl: "https://avatarko.ru/img/kartinka/14/zhivotnye_kot_13379.jpg",
-      order: 1,
-    },
-    {
-      avatarId: "flaj;sdfh",
-      avatarUrl:
-        "https://png.pngtree.com/thumb_back/fh260/background/20240717/pngtree-new-nature-beautiful-background-pictures-image_16017682.jpg",
-      order: 1,
-    },
-  ],
-  devices: [
-    { name: "iPhone", from: "Frankfurt am Main, Germany" },
-    { name: "Windows PC", from: "Tumen ios 26.2" },
-  ],
+  userId: null,
+  userName: null,
+  firstName: null,
+  lastName: null,
+  about: null,
+  avatars: null,
+  devices: null,
 
   getMyInfo: async () => {
     try {
@@ -205,3 +184,33 @@ export const useUserStore = create<UserStore>((set) => ({
     }
   },
 }));
+
+// Пример возможных данных пользователя
+// userId: "asdlfkjhasdflkjhasdflkjhaflkjh",
+// userName: "kowaldiv",
+// firstName: "Владислав",
+// lastName: "Ефименко",
+// about: "<div>kowal</div>",
+// avatars: [
+//   {
+//     avatarId: "flaj;sdfh",
+//     avatarUrl:
+//       "https://png.pngtree.com/thumb_back/fh260/background/20230610/pngtree-picture-of-a-blue-bird-on-a-black-background-image_2937385.jpg",
+//     order: 1,
+//   },
+//   {
+//     avatarId: "flaj;sdfh",
+//     avatarUrl: "https://avatarko.ru/img/kartinka/14/zhivotnye_kot_13379.jpg",
+//     order: 1,
+//   },
+//   {
+//     avatarId: "flaj;sdfh",
+//     avatarUrl:
+//       "https://png.pngtree.com/thumb_back/fh260/background/20240717/pngtree-new-nature-beautiful-background-pictures-image_16017682.jpg",
+//     order: 1,
+//   },
+// ],
+// devices: [
+//   { name: "iPhone", from: "Frankfurt am Main, Germany" },
+//   { name: "Windows PC", from: "Tumen ios 26.2" },
+// ],
