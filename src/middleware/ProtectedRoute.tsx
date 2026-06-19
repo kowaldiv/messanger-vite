@@ -13,7 +13,7 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
   // useEffect(() => {
   //   async function getInfo() {
   //     setIsRequestPending(true);
-  //     const result = await useUserStore.getState().getUserInfo();
+  //     const result = await useUserStore.getState().getMyInfo();
   //     setIsRequestPending(false);
   //     if (!result.success) {
   //       navigate(DASHBOARD_PAGES.SIGN_IN, { replace: true });
