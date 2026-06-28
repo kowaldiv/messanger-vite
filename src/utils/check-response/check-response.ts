@@ -14,6 +14,7 @@ export async function checkResponse<T>(response: AxiosResponse): Promise<T> {
   }
 
   if (response.status < 200 || response.status >= 300) {
+    if (response.status === 401) throw ApiError.unauthorized();
     if (response.status === 404) throw ApiError.notFound();
     if (response.status === 400) {
       console.log("Bad request data:", response.data);

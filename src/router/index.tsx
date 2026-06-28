@@ -5,9 +5,6 @@ import { ProtectedRoute } from "../middleware/ProtectedRoute";
 
 const SignIn = lazy(() => import("@/src/pages/auth/sign-in/page"));
 const SignUp = lazy(() => import("@/src/pages/auth/sign-up/page"));
-const EmailVerification = lazy(
-  () => import("@/src/pages/auth/email-verification/page"),
-);
 const ForgotPassword = lazy(
   () => import("@/src/pages/auth/forgot-password/page"),
 );
@@ -34,14 +31,6 @@ export const router = createBrowserRouter([
     element: (
       <LazyPage>
         <SignUp />
-      </LazyPage>
-    ),
-  },
-  {
-    path: DASHBOARD_PAGES.EMAIL_VERIFICATION,
-    element: (
-      <LazyPage>
-        <EmailVerification />
       </LazyPage>
     ),
   },

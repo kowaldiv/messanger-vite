@@ -1,15 +1,16 @@
 import { api } from "./http-client";
 
-
 export interface LoginData {
   email: string;
   password: string;
 }
 
 export interface RegisterData {
-  name: string;
   email: string;
   password: string;
+  firstName: string;
+  lastName?: string;
+  username: string;
 }
 
 export interface EmailVerificationData {
@@ -27,30 +28,26 @@ export interface ResetPasswordData {
 
 export const authApi = {
   // Вход
-  login: (data: LoginData) => 
-    api.post("/auth/login", data),
-  
+  login: (data: LoginData) => api.post("/auth/login", data),
+
   // Регистрация
-  register: (data: RegisterData) => 
-    api.post("/auth/register", data),
-    
+  register: (data: RegisterData) => api.post("/auth/register", data),
+
   // Подтвердить почту
-  emailVerification: (data: EmailVerificationData) => 
+  emailVerification: (data: EmailVerificationData) =>
     api.post("/auth/register", data),
-  
+
   // Запрос на восстановление (отправляем email)
-  forgotPassword: (data: ForgotPasswordData) => 
-    api.post<{ message: string }, ForgotPasswordData>("/auth/forgot-password", data),
-  
+  forgotPassword: (data: ForgotPasswordData) =>
+    api.post("/auth/forgot-password", data),
+
   // Сброс пароля (с токеном из письма)
-  resetPassword: (data: ResetPasswordData) => 
-    api.post<{ message: string }, ResetPasswordData>("/auth/reset-password", data),
-  
+  resetPassword: (data: ResetPasswordData) =>
+    api.post("/auth/reset-password", data),
+
   // Обновление токена (если нужно)
-  refreshToken: () => 
-    api.get<{ token: string }>("/auth/refresh"),
-  
+  refreshToken: () => api.get("/auth/refresh"),
+
   // Выход (опционально, если сервер аннулирует токен)
-  logout: () => 
-    api.post("/auth/logout", {}),
+  logout: () => api.post("/auth/logout", {}),
 };
