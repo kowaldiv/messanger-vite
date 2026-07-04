@@ -1,14 +1,14 @@
 import { images } from "@/src/assets";
 import { Button } from "@/src/ui/components/atoms/Button";
 import { DASHBOARD_PAGES } from "@/src/config/pages-url.config";
-import { usePanelStore } from "@/src/stores/panel-store";
+import { useNavBarStore } from "@/src/stores/nav-bar-store";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { authApi } from "@/src/api/auth.api";
 
 export function Buttons() {
   const navigate = useNavigate();
-  const setPanel = usePanelStore.getState().setPanel;
+  const setPanel = useNavBarStore.getState().setPanel;
 
   const [isRequestPending, setIsRequestPending] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);

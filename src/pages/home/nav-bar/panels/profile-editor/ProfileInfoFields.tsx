@@ -74,8 +74,6 @@ export function ProfileInfoFields({
               <h2 className="ml-2 text-sm text-gray-400">{input.text}</h2>
               <Input
                 disabled={isRequestPending}
-                value={input.value}
-                onChange={input.onChange}
                 className="text-sm"
               />
             </div>

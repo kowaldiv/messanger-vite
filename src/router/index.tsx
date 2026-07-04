@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import { DASHBOARD_PAGES } from "../config/pages-url.config";
 import { ProtectedRoute } from "../middleware/ProtectedRoute";
+import { GuestRoute } from "../middleware/GuestRoute";
 
 const SignIn = lazy(() => import("@/src/pages/auth/sign-in/page"));
 const SignUp = lazy(() => import("@/src/pages/auth/sign-up/page"));
@@ -22,7 +23,9 @@ export const router = createBrowserRouter([
     path: DASHBOARD_PAGES.SIGN_IN,
     element: (
       <LazyPage>
-        <SignIn />
+        <GuestRoute>
+          <SignIn />
+        </GuestRoute>
       </LazyPage>
     ),
   },
@@ -30,7 +33,9 @@ export const router = createBrowserRouter([
     path: DASHBOARD_PAGES.SIGN_UP,
     element: (
       <LazyPage>
-        <SignUp />
+        <GuestRoute>
+          <SignUp />
+        </GuestRoute>
       </LazyPage>
     ),
   },
@@ -38,7 +43,9 @@ export const router = createBrowserRouter([
     path: DASHBOARD_PAGES.FORGOT_PASSWORD,
     element: (
       <LazyPage>
-        <ForgotPassword />
+        <GuestRoute>
+          <ForgotPassword />
+        </GuestRoute>
       </LazyPage>
     ),
   },
@@ -46,7 +53,9 @@ export const router = createBrowserRouter([
     path: DASHBOARD_PAGES.RESET_PASSWORD,
     element: (
       <LazyPage>
-        <ResetPassword />
+        <GuestRoute>
+          <ResetPassword />
+        </GuestRoute>
       </LazyPage>
     ),
   },

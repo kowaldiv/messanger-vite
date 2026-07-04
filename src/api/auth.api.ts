@@ -1,3 +1,4 @@
+import type { PublicUser } from "../schemas/user.schema";
 import { api } from "./http-client";
 
 export interface LoginData {
@@ -13,9 +14,9 @@ export interface RegisterData {
   username: string;
 }
 
-export interface EmailVerificationData {
-  code: string;
-}
+// export interface EmailVerificationData {
+//   code: string;
+// }
 
 export interface ForgotPasswordData {
   email: string;
@@ -28,14 +29,15 @@ export interface ResetPasswordData {
 
 export const authApi = {
   // Вход
-  login: (data: LoginData) => api.post("/auth/login", data),
+  login: (data: LoginData) => api.post<PublicUser>("/auth/login", data),
 
   // Регистрация
-  register: (data: RegisterData) => api.post("/auth/register", data),
+  register: (data: RegisterData) =>
+    api.post<PublicUser>("/auth/register", data),
 
   // Подтвердить почту
-  emailVerification: (data: EmailVerificationData) =>
-    api.post("/auth/register", data),
+  // emailVerification: (data: EmailVerificationData) =>
+  //   api.post("/auth/register", data),
 
   // Запрос на восстановление (отправляем email)
   forgotPassword: (data: ForgotPasswordData) =>
@@ -45,9 +47,8 @@ export const authApi = {
   resetPassword: (data: ResetPasswordData) =>
     api.post("/auth/reset-password", data),
 
-  // Обновление токена (если нужно)
-  refreshToken: () => api.get("/auth/refresh"),
-
   // Выход (опционально, если сервер аннулирует токен)
-  logout: () => api.post("/auth/logout", {}),
+  logout: () => api.get("/auth/logout"),
+
+  refreshToken: () => api.get("/auth/refresh-token")
 };

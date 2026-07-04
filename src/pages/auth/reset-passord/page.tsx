@@ -32,28 +32,20 @@ export default function ResetPassword() {
   const onSubmit = async (data: ResetPasswordInput) => {
     setServerError(null);
 
-    try {
-      if (!token) throw new Error("Плохая ссылка для востановления");
-      const result = await authApi.resetPassword({
-        password: data.password,
-        token,
-      });
+    if (!token) throw new Error("Плохая ссылка для востановления");
+    const result = await authApi.resetPassword({
+      password: data.password,
+      token,
+    });
 
-      if (!result.success) {
-        setServerError(result.userMessage || "Ошибка при регистрации");
-        return;
-      }
-
-      // Успешная регистрация
-      reset();
-      setIsSuccess(true);
-    } catch (error) {
-      setServerError(
-        error instanceof Error
-          ? error.message
-          : "Произошла ошибка при регистрации. Попробуйте позже.",
-      );
+    if (!result.success) {
+      setServerError(result.userMessage || "Ошибка при регистрации");
+      return;
     }
+
+    // Успешная регистрация
+    reset();
+    setIsSuccess(true);
   };
 
   return (

@@ -30,26 +30,18 @@ export default function ForgotPassword() {
   const onSubmit = async (data: ForgotPasswordInput) => {
     setServerError(null);
 
-    try {
-      const result = await authApi.forgotPassword({
-        email: data.email,
-      });
+    const result = await authApi.forgotPassword({
+      email: data.email,
+    });
 
-      if (!result.success) {
-        setServerError(result.userMessage || "Ошибка при регистрации");
-        return;
-      }
-
-      // Успешная регистрация
-      reset();
-      setIsSuccess(true);
-    } catch (error) {
-      setServerError(
-        error instanceof Error
-          ? error.message
-          : "Произошла ошибка при смене пароля. Попробуйте позже.",
-      );
+    if (!result.success) {
+      setServerError(result.userMessage || "Ошибка при регистрации");
+      return;
     }
+
+    // Успешная регистрация
+    reset();
+    setIsSuccess(true);
   };
 
   return (

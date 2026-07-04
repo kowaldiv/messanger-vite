@@ -1,5 +1,6 @@
 import { create } from "zustand";
-import type { Avatar, Session, User } from "../api/user.api";
+import type { Avatar } from "../schemas/avatar.schema";
+import type { PublicUser } from "../schemas/user.schema";
 
 interface UserStore {
   id: string | null;
@@ -8,10 +9,10 @@ interface UserStore {
   lastName: string | null;
   bio: string | null;
   avatars: Avatar[] | null;
-  sessions: Session[] | null;
+  sessions: string[] | null;
 
-  setUserInfo: (data: User) => void;
-  setSessions: (sessions: Session[]) => void;
+  setUserInfo: (data: PublicUser) => void;
+  // setSessions: (sessions: Session[]) => void;
 }
 
 export const useUserStore = create<UserStore>((set) => ({
@@ -34,7 +35,7 @@ export const useUserStore = create<UserStore>((set) => ({
     });
   },
 
-  setSessions: (sessions) => {
-    set({ sessions });
-  },
+  // setSessions: (sessions) => {
+  //   set({ sessions });
+  // },
 }));

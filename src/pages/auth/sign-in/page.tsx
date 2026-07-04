@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { InputWrapper } from "@/src/ui/components/molecules/InputWrapper";
 import { loginSchema, type LoginInput } from "./schema";
+import { useUserStore } from "@/src/stores/user-store";
 
 export default function SignIn() {
   const navigate = useNavigate();
@@ -31,27 +32,20 @@ export default function SignIn() {
   const onSubmit = async (data: LoginInput) => {
     setServerError(null);
 
-    try {
-      const result = await authApi.login({
-        email: data.email,
-        password: data.password,
-      });
+    const result = await authApi.login({
+      email: data.email,
+      password: data.password,
+    });
 
-      if (!result.success) {
-        setServerError(result.userMessage || "Ошибка при регистрации");
-        return;
-      }
-
-      // Успешная регистрация
-      reset();
-      navigate(DASHBOARD_PAGES.HOME);
-    } catch (error) {
-      setServerError(
-        error instanceof Error
-          ? error.message
-          : "Произошла ошибка при авторизации. Попробуйте позже.",
-      );
+    if (!result.success) {
+      setServerError(result.userMessage || "Ошибка при регистрации");
+      return;
     }
+
+    // Успешная регистрация
+    useUserStore.getState().setUserInfo(result.data);
+    reset();
+    navigate(DASHBOARD_PAGES.HOME);
   };
 
   return (

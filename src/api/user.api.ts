@@ -1,29 +1,6 @@
+import type { Session } from "react-router-dom";
 import { api } from "./http-client";
-
-export interface Session {
-  id: string;
-  userId: string;
-  fingerprint: string;
-  createdAt: Date;
-}
-
-export interface Avatar {
-  id: string;
-  avatarUrl: string;
-  isPrimary: boolean;
-  createdAt: Date;
-}
-
-export interface User {
-  id: string;
-  username: string;
-  firstName: string;
-  lastName: string | null;
-  bio: string | null;
-  lastSeen: Date;
-  createdAt: Date;
-  avatars: Avatar[];
-}
+import type { PublicUser } from "../schemas/user.schema";
 
 export interface AddUserAvatarData {
   avatar: File;
@@ -47,8 +24,11 @@ export interface UpdateUserProfile {
 // Пока что тут заглушки, нормальные api настрою попозже, как с беком закончу
 
 export const userApi = {
+  // данные пользователя (надо для psotected route, там получаются данные)
+  getUserInfo: () => api.get<PublicUser>("/user/getInfo"),
+
   // Сессии пользователя
-  devices: () => api.get<Session[]>("/auth/sessions"),
+  devices: () => api.get<Session[]>("/user/sessions"),
 
   // Добавить аватар
   addUserAvatar: (data: AddUserAvatarData) =>

@@ -1,13 +1,13 @@
-import { images } from "@/src/assets";
-import { Button } from "@/src/ui/components/atoms/Button";
-import { useUserStore } from "@/src/stores/user-store";
+// import { images } from "@/src/assets";
+// import { Button } from "@/src/ui/components/atoms/Button";
+// import { useUserStore } from "@/src/stores/user-store";
 import { useEffect, useState } from "react";
 import { userApi } from "@/src/api/user.api";
 
 export function Devices() {
   const [isRequestPending, setIsRequestPending] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const sessions = useUserStore((state) => state.sessions);
+  // const sessions = useUserStore((state) => state.sessions);
 
   useEffect(() => {
     const getUserSessions = async () => {
@@ -35,7 +35,7 @@ export function Devices() {
         "Loading..."
       ) : (
         <div className="grid gap-3">
-          {sessions?.map((sessions) => {
+          {/* {sessions?.map((sessions) => {
             return (
               <div className="border border-border rounded-md p-3">
                 <div className="flex justify-between items-center">
@@ -49,7 +49,7 @@ export function Devices() {
                 </p>
               </div>
             );
-          })}
+          })} */}
         </div>
       )}
     </div>

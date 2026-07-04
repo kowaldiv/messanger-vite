@@ -9,6 +9,7 @@ import { registerSchema, type RegisterInput } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { InputWrapper } from "@/src/ui/components/molecules/InputWrapper";
+import { useUserStore } from "@/src/stores/user-store";
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -35,30 +36,23 @@ export default function SignUp() {
   const onSubmit = async (data: RegisterInput) => {
     setServerError(null);
 
-    try {
-      const result = await authApi.register({
-        email: data.email,
-        password: data.password,
-        username: data.username,
-        firstName: data.firstName,
-        lastName: data.lastName,
-      });
+    const result = await authApi.register({
+      email: data.email,
+      password: data.password,
+      username: data.username,
+      firstName: data.firstName,
+      lastName: data.lastName,
+    });
 
-      if (!result.success) {
-        setServerError(result.userMessage || "Ошибка при регистрации");
-        return;
-      }
-
-      // Успешная регистрация
-      reset();
-      navigate(DASHBOARD_PAGES.HOME);
-    } catch (error) {
-      setServerError(
-        error instanceof Error
-          ? error.message
-          : "Произошла ошибка при регистрации. Попробуйте позже.",
-      );
+    if (!result.success) {
+      setServerError(result.userMessage || "Ошибка при регистрации");
+      return;
     }
+
+    // Успешная регистрация
+    useUserStore.getState().setUserInfo(result.data);
+    reset();
+    navigate(DASHBOARD_PAGES.HOME);
   };
 
   return (

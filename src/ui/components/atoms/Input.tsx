@@ -1,23 +1,25 @@
+import type { InputHTMLAttributes } from "react";
+
 export function Input({
   className,
   required,
   disabled,
   type,
   placeholder,
-
+  onClick,
+  onChange,
   ...rest
-}: {
+}: InputHTMLAttributes<HTMLInputElement> & {
   className?: string;
-  required?: boolean;
-  disabled?: boolean;
-  type?: "text" | "email" | "password" | "file";
-  placeholder?: string;
 }) {
   return (
     <input
-      className={`${className} border dark:bg-[#1f1f1f] border-border rounded-md px-2 sm:px-3 py-1.5 sm:py-2 text-sm 
+      className={`${className} border bg-secondary border-border rounded-md px-2 sm:px-3 py-2 text-sm 
       ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
       type={type || "text"}
+      onClick={onClick}
+      onChange={onChange}
+      
       placeholder={placeholder}
       required={required}
       disabled={disabled}
