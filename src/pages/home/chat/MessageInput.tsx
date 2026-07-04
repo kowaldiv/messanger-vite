@@ -13,7 +13,7 @@ export function MessageInput() {
     if (!chatOrUserId) return;
     if (!text.trim()) return;
 
-    console.log(`Отправляю сообщение: '${text}'`)
+    console.log(`Отправляю сообщение: '${text}'`);
     socket.emit("sendMessage", {
       chatIdOrUserId: chatOrUserId,
       text: text.trim(),
@@ -23,7 +23,9 @@ export function MessageInput() {
   }
 
   return (
-    <div className={`${chatOrUserId || "hidden"} w-full flex items-center gap-2 pb-3 px-3 pt-2 absolute bottom-0 backdrop-blur-[2px]`}>
+    <div
+      className={`${chatOrUserId || "hidden"} w-full flex items-center gap-2 pb-3 px-3 pt-2 absolute bottom-0 backdrop-blur-[2px]`}
+    >
       <Button>
         <img
           src={images.icons.parperclip}
@@ -35,9 +37,12 @@ export function MessageInput() {
         onChange={(e) => setText(e.target.value)}
         value={text}
         placeholder="Сообщение"
-        className="flex-1"
+        className="flex-1 min-w-0"
       />
-      <Button className={`${text.length > 0 ? "" : "hidden"}`} onClick={sendMessage}>
+      <Button
+        className={`${text.length > 0 ? "" : "hidden"}`}
+        onClick={sendMessage}
+      >
         <img
           src={images.icons.arrow}
           className="min-w-6 min-h-6 max-w-6 max-h-6 rotate-90"

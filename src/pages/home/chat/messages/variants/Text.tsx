@@ -10,12 +10,12 @@ export function TextMessage({ message }: { message: TextMessage }) {
 
   return (
     <div className={`flex gap-2 ${isOwn ? "flex-row-reverse" : "flex-row"}`}>
-      <div className="w-8 h-8 rounded-full bg-gray-300 shrink-0">
+      <div className="w-8 h-8 rounded-full bg-gray-300 shrink-0 flex items-center justify-center">
         <img
           src={
             message.user?.avatars[0]
               ? message.user?.avatars[0].avatarUrl
-              : images.icons.avatarWhite
+              : images.icons.avatar
           }
           className="min-w-6 min-h-6 max-w-6 max-h-6"
           alt="menu button"
@@ -26,7 +26,7 @@ export function TextMessage({ message }: { message: TextMessage }) {
       <div className="flex flex-col max-w-[70%]">
         <div
           className={`
-            px-4 py-2.5 rounded-2xl wrap-break-word
+            px-4 py-2.5 text-sm rounded-2xl wrap-break-word
             ${
               isOwn
                 ? "bg-primary text-white rounded-br-sm"

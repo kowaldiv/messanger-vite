@@ -20,7 +20,7 @@ export function Header() {
   };
 
   return (
-    <div className="w-full px-2 max-h-15 h-15 border-b border-b-border flex items-center justify-between">
+    <div className="w-full max-w-dvw px-2 max-h-15 h-15 border-b border-b-border flex items-center justify-between">
       <Button
         className="sm:hidden"
         onClick={() => useNavBarStore.getState().setIsHidden(false)}
@@ -31,8 +31,18 @@ export function Header() {
           alt="menu button"
         />
       </Button>
-      <div className="sm:flex-1">
-        <p className="sm:text-center text-nowrap truncate">
+      <Button
+        className="hidden sm:block"
+        onClick={() => useNavBarStore.getState().setIsHidden(false)}
+      >
+        <img
+          src={images.icons.arrow}
+          className="min-w-6 min-h-6 max-w-6 max-h-6"
+          alt="menu button"
+        />
+      </Button>
+      <div className="min-w-0 flex-1">
+        <p className="text-center text-nowrap truncate">
           {chat.type === "private"
             ? `${chat.chatParticipant.user.firstName} ${chat.chatParticipant.user.lastName}`
             : chat.title}

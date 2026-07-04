@@ -47,7 +47,7 @@ export function Chats() {
           subtitle = getSubtitle(lastMessage);
           avatarUrl =
             participant.user.avatars?.[0]?.avatarUrl ||
-            images.icons.avatarWhite;
+            images.icons.avatar;
         } else if (chat.type === "group") {
           title = chat.title;
           subtitle = getSubtitle(lastMessage);
