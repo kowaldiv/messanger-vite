@@ -5,12 +5,14 @@ export function Input({
   required,
   disabled,
   type,
+  ref,
   placeholder,
   onClick,
   onChange,
   ...rest
 }: InputHTMLAttributes<HTMLInputElement> & {
   className?: string;
+  ref?: React.Ref<HTMLInputElement>;
 }) {
   return (
     <input
@@ -19,7 +21,7 @@ export function Input({
       type={type || "text"}
       onClick={onClick}
       onChange={onChange}
-      
+      ref={ref}
       placeholder={placeholder}
       required={required}
       disabled={disabled}

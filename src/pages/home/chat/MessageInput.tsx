@@ -3,23 +3,32 @@ import { socket } from "@/src/socket-io/client";
 import { useOpenChatStore } from "@/src/stores/open-chat-store";
 import { Button } from "@/src/ui/components/atoms/Button";
 import { Input } from "@/src/ui/components/atoms/Input";
-import { useState } from "react";
+import { useRef } from "react";
 
 export function MessageInput() {
   const chatOrUserId = useOpenChatStore((state) => state.openedChat?.id);
-  const [text, setText] = useState<string>("");
+  const inputRef = useRef<HTMLInputElement>(null);
 
   function sendMessage() {
     if (!chatOrUserId) return;
-    if (!text.trim()) return;
+    const text = inputRef.current?.value.trim();
+    if (!text) return;
 
     console.log(`Отправляю сообщение: '${text}'`);
     socket.emit("sendMessage", {
       chatIdOrUserId: chatOrUserId,
-      text: text.trim(),
+      text: text,
     });
 
-    setText("");
+    if (inputRef.current) {
+      inputRef.current.value = "";
+    }
+  }
+
+  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key === "Enter") {
+      sendMessage();
+    }
   }
 
   return (
@@ -34,15 +43,12 @@ export function MessageInput() {
         />
       </Button>
       <Input
-        onChange={(e) => setText(e.target.value)}
-        value={text}
+        ref={inputRef}
+        onKeyDown={handleKeyDown}
         placeholder="Сообщение"
         className="flex-1 min-w-0"
       />
-      <Button
-        className={`${text.length > 0 ? "" : "hidden"}`}
-        onClick={sendMessage}
-      >
+      <Button onClick={sendMessage}>
         <img
           src={images.icons.arrow}
           className="min-w-6 min-h-6 max-w-6 max-h-6 rotate-90"
