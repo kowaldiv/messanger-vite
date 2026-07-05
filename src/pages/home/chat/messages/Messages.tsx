@@ -2,7 +2,7 @@ import { images } from "@/src/assets";
 import { useMessagesStore } from "@/src/stores/messages-store";
 import { useOpenChatStore } from "@/src/stores/open-chat-store";
 import { TextMessage } from "./variants/Text";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import { useUserStore } from "@/src/stores/user-store";
 import { messageApi } from "@/src/api/message.api";
 
@@ -16,6 +16,8 @@ export function Messages() {
   const currentUserId = useUserStore((state) => state.id);
   const lastMessageIdRef = useRef<string | null>(null);
   // const [isLoading, setIsLoading] = useState(false);
+
+  const savedScrollTopRef = useRef<number>(0);
 
   useEffect(() => {
     if (!openedChat) return;
@@ -50,16 +52,56 @@ export function Messages() {
     );
   }, [openedChat, allMessages]);
 
+  // Внизу чата = scrollTop маленький
   const isNearBottom = (threshold: number = 150) => {
     const container = containerRef.current;
     if (!container) return false;
-    return container.scrollTop <= threshold;
+
+    const maxScroll = container.scrollHeight - container.clientHeight;
+    return container.scrollTop >= maxScroll - threshold;
   };
+
+  // Вверху чата = scrollTop большой (близко к scrollHeight)
   const isNearTop = (threshold: number = 100) => {
     const container = containerRef.current;
     if (!container) return false;
     return container.scrollTop <= threshold;
   };
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleScroll = () => {
+      savedScrollTopRef.current = container.scrollTop;
+
+      console.log("Scroll position:", {
+        scrollTop: container.scrollTop,
+      });
+    };
+
+    container.addEventListener("scroll", handleScroll);
+    return () => container.removeEventListener("scroll", handleScroll);
+  }, [openedChat]);
+
+  // Восстанавливаем позицию после добавления сообщений
+  useLayoutEffect(() => {
+    if (isNearBottom()) return;
+
+    const container = containerRef.current;
+    if (!container) return;
+
+    const lastMessage = messages[messages.length - 1];
+
+    if (lastMessage && lastMessage.id !== lastMessageIdRef.current) {
+      if (
+        lastMessage.type === "text" &&
+        lastMessage.user?.id !== currentUserId
+      ) {
+        container.scrollTop = savedScrollTopRef.current;
+      }
+    }
+  }, [messages, currentUserId]);
 
   // прокрутка в конец когда отправляешь сообщение
   useEffect(() => {
@@ -69,9 +111,8 @@ export function Messages() {
     if (lastMessage && lastMessage.id !== lastMessageIdRef.current) {
       // Только если это сообщение от текущего пользователя или мы уже внизу
       if (
-        (lastMessage.type === "text" &&
-          lastMessage.user?.id === currentUserId) ||
-        isNearBottom(150)
+        lastMessage.type === "text" &&
+        lastMessage.user?.id === currentUserId
       ) {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
       }
@@ -85,6 +126,7 @@ export function Messages() {
 
     const handleScroll = async () => {
       if (!isNearTop()) return;
+      // console.log(isNearTop());
 
       const oldestMessage = messages[0];
       const data = await messageApi.getMessages(
