@@ -16,7 +16,7 @@ export function Buttons() {
   const Buttons = [
     [
       {
-        img: images.icons.avatarWhite,
+        img: images.icons.avatar,
         alt: "Profile",
         text: "Profile",
         onClick: () => setPanel("profile-editor"),
