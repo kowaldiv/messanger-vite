@@ -3,6 +3,7 @@ import { socket } from "../socket-io/client";
 import { useMessagesStore } from "../stores/messages-store";
 import { PublicMessageSchema, type PublicMessage } from "../schemas/message.schema";
 import z from "zod";
+import { useChatsStore } from "../stores/chats-store";
 
 export function useMessageSocketEvents() {
   const addMessage = useMessagesStore((state) => state.addMessage);
@@ -31,6 +32,8 @@ export function useMessageSocketEvents() {
       if (success) {
         console.log("💬 New message:", message);
         addMessage(message.chatId, message);
+        console.log('fasdfdsf')
+        useChatsStore.getState().moveChatToTop(message.chatId)
       }
     };
 
