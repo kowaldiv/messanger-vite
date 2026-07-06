@@ -43,7 +43,7 @@ export function TopControls() {
 
   return (
     <div
-      className={`w-full flex gap-3 items-center mb-4 z-1
+      className={` flex gap-3 items-center mb-4 z-1
         ${panel === "chats" || panel === "search" ? "" : "absolute"}`}
     >
       <Button

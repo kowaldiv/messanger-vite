@@ -14,7 +14,7 @@ export function MessageInput() {
     const text = inputRef.current?.value.trim();
     if (!text) return;
 
-    console.log(`Отправляю сообщение: '${text}'`);
+    // console.log(`Отправляю сообщение: '${text}'`);
     socket.emit("sendMessage", {
       chatIdOrUserId: chatOrUserId,
       text: text,

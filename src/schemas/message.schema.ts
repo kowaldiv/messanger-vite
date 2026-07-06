@@ -85,10 +85,14 @@ export const InviteMessageSchema = z.object({
   chatId: z.string(),
   userId: z.string().nullable(),
   type: z.literal("invite"),
-  metadata: PublicInviteLinkSchema,
+  metadata: z.union([
+    PublicInviteLinkSchema,
+    z.object({ chat: PublicInviteLinkSchema.shape.chat }) // Pick<PublicInviteLink, "chat">
+  ]),
   createdAt: z.coerce.date(),
   user: MessageUserSchema.nullable(),
 });
+
 export type InviteMessage = z.infer<typeof InviteMessageSchema>;
 
 // 🔥 Discriminated union для всех типов сообщений

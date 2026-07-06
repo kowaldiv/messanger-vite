@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-type Panels = "chats" | "search" | "profile" | "profile-editor" | "devices";
+type Panels = "chats" | "search" | "profile" | "profile-editor" | "devices" | "create-group-or-chat";
 
 interface NavBarStore {
   panel: Panels;

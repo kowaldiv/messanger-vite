@@ -150,7 +150,7 @@ export function Messages() {
   return (
     <div
       ref={containerRef}
-      className="w-full flex-1 overflow-y-auto"
+      className="w-full flex-1 overflow-y-auto hide-scrollbar"
       style={{
         backgroundImage: `url(${images.background})`,
         height: "100%",

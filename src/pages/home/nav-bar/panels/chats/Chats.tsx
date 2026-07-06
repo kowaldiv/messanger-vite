@@ -26,7 +26,7 @@ export function Chats() {
   const messages = useMessagesStore((state) => state.messages);
 
   return (
-    <ul className="flex flex-col gap-3">
+    <ul className="flex flex-1 flex-col gap-3 pb-10 overflow-y-auto hide-scrollbar">
       {chats.map((chat) => {
         // 1. Вычисляем отображаемые данные в зависимости от типа чата
         let title = "";
@@ -46,8 +46,7 @@ export function Chats() {
           title = `${firstName} ${lastName}`.trim();
           subtitle = getSubtitle(lastMessage);
           avatarUrl =
-            participant.user.avatars?.[0]?.avatarUrl ||
-            images.icons.avatar;
+            participant.user.avatars?.[0]?.avatarUrl || images.icons.avatar;
         } else if (chat.type === "group") {
           title = chat.title;
           subtitle = getSubtitle(lastMessage);
@@ -76,7 +75,6 @@ export function Chats() {
                 className="w-full h-full object-cover"
               />
             </div>
-
             {/* Контент */}
             <div className="flex-1 min-w-0">
               <div className="mb-1">
@@ -96,6 +94,14 @@ export function Chats() {
           </Button>
         );
       })}
+      <Button
+        onClick={() =>
+          useNavBarStore.getState().setPanel("create-group-or-chat")
+        }
+        className="absolute bottom-3 right-3"
+      >
+        <img src={images.icons.close} className="rotate-45 w-6 h-6" alt="" />
+      </Button>
     </ul>
   );
 }

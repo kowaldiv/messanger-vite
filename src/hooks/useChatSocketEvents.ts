@@ -8,6 +8,7 @@ import {
 } from "../schemas/chat.schema";
 import z from "zod";
 import { useMessagesStore } from "../stores/messages-store";
+import { useNavBarStore } from "../stores/nav-bar-store";
 
 export function useChatSocketEvents() {
   const setChats = useChatsStore((state) => state.setChats);
@@ -64,6 +65,9 @@ export function useChatSocketEvents() {
 
       console.log("📩 New chat received:", result.data.chat);
       addChat(result.data.chat);
+      if (result.data.chat.type !== "private") {
+        useNavBarStore.getState().setPanel("chats");
+      }
     };
 
     // 🔥 Обработка ошибок

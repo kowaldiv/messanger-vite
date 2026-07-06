@@ -23,4 +23,17 @@ export interface ClientToServerEvents {
 
   // Отправить сообщение
   sendMessage: (data: { chatIdOrUserId: string; text: string }) => void;
+
+  createChat: (
+    data:
+      | { type: "group"; title: string }
+      | {
+          type: "channel";
+          title: string;
+          description: string;
+          isPrivate: boolean;
+        },
+  ) => void;
+
+  invite: (destinationChatId: string, chatIds: string[]) => void;
 }

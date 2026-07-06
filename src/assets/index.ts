@@ -10,6 +10,7 @@ import exit from "@/public/exit.svg";
 import devices from "@/public/devices.svg";
 import trashBin from "@/public/trash-bin.svg";
 import parperclip from "@/public/parperclip.svg";
+import close from "@/public/close.svg";
 
 export const images = {
   logo,
@@ -25,5 +26,6 @@ export const images = {
     devices,
     trashBin,
     parperclip,
+    close,
   },
 };
