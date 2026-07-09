@@ -72,7 +72,7 @@ export function Chats() {
               <img
                 src={avatarUrl}
                 alt={title}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover rounded-full"
               />
             </div>
             {/* Контент */}

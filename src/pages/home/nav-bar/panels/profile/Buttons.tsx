@@ -5,6 +5,10 @@ import { useNavBarStore } from "@/src/stores/nav-bar-store";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { authApi } from "@/src/api/auth.api";
+import { useChatsStore } from "@/src/stores/chats-store";
+import { useMessagesStore } from "@/src/stores/messages-store";
+import { useUserStore } from "@/src/stores/user-store";
+import { useOpenChatStore } from "@/src/stores/open-chat-store";
 
 export function Buttons() {
   const navigate = useNavigate();
@@ -53,6 +57,10 @@ export function Buttons() {
     if (!result.success) {
       setErrorMessage(result.userMessage);
     } else {
+      useChatsStore.getState().reset();
+      useMessagesStore.getState().reset();
+      useOpenChatStore.getState().reset();
+      useUserStore.getState().reset();
       navigate(DASHBOARD_PAGES.SIGN_IN);
     }
   };

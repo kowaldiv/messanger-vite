@@ -9,11 +9,13 @@ import {
 import z from "zod";
 import { useMessagesStore } from "../stores/messages-store";
 import { useNavBarStore } from "../stores/nav-bar-store";
+import { useOpenChatStore } from "../stores/open-chat-store";
 
 export function useChatSocketEvents() {
   const setChats = useChatsStore((state) => state.setChats);
   const addChat = useChatsStore.getState().addChat;
   const addMessage = useMessagesStore.getState().addMessage;
+  const openedChat = useOpenChatStore((state) => state.openedChat);
 
   useEffect(() => {
     // 🔥 Обработка ответа после joinAllChats
@@ -68,6 +70,14 @@ export function useChatSocketEvents() {
       if (result.data.chat.type !== "private") {
         useNavBarStore.getState().setPanel("chats");
       }
+      if (
+        result.data.chat.type === "private" &&
+        openedChat?.type === "private" &&
+        result.data.chat.chatParticipant.user.id ===
+          openedChat.chatParticipant.user.id
+      ) {
+        useOpenChatStore.getState().setOpenedChat(result.data.chat);
+      }
     };
 
     // 🔥 Обработка ошибок
@@ -84,5 +94,5 @@ export function useChatSocketEvents() {
       socket.off("chat:new", handleNewChat);
       socket.off("error", handleError);
     };
-  }, [setChats, addChat, addMessage]);
+  }, [setChats, addChat, addMessage, openedChat]);
 }

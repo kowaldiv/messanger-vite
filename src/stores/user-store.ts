@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import type { Avatar } from "../schemas/avatar.schema";
 import type { PublicUser } from "../schemas/user.schema";
+import type { Sessions } from "../schemas/session.schema";
 
 interface UserStore {
   id: string | null;
@@ -9,7 +10,7 @@ interface UserStore {
   lastName: string | null;
   bio: string | null;
   avatars: Avatar[] | null;
-  sessions: string[] | null;
+  sessions: Sessions | null;
 
   setUserInfo: (data: PublicUser) => void;
   updateUserInfo: (data: {
@@ -19,10 +20,12 @@ interface UserStore {
     bio?: string;
   }) => void;
 
-  // setSessions: (sessions: Session[]) => void;
+  reset: () => void;
+  setSessions: (sessions: Sessions) => void;
+  deleteSession: (id: string) => void;
 }
 
-export const useUserStore = create<UserStore>((set) => ({
+export const useUserStore = create<UserStore>((set, get) => ({
   id: null,
   username: null,
   firstName: null,
@@ -32,7 +35,6 @@ export const useUserStore = create<UserStore>((set) => ({
   sessions: null,
 
   setUserInfo: (data) => {
-    console.log(JSON.stringify(data.avatars, null, 1))
     set({
       id: data.id,
       username: data.username,
@@ -52,7 +54,25 @@ export const useUserStore = create<UserStore>((set) => ({
     }));
   },
 
-  // setSessions: (sessions) => {
-  //   set({ sessions });
-  // },
+  reset: () => {
+    set({
+      id: null,
+      username: null,
+      firstName: null,
+      lastName: null,
+      bio: null,
+      avatars: null,
+      sessions: null,
+    });
+  },
+
+  setSessions: (sessions) => {
+    set({ sessions });
+  },
+
+  deleteSession: (id: string) => {
+    set({
+      sessions: get().sessions?.filter((session) => session.id !== id),
+    });
+  },
 }));

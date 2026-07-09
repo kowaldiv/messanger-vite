@@ -86,7 +86,7 @@ export const InviteMessageSchema = z.object({
   type: z.literal("invite"),
   metadata: z.union([
     PublicInviteLinkSchema,
-    z.object({ chat: PublicInviteLinkSchema.shape.chat }) // Pick<PublicInviteLink, "chat">
+    z.object({ chat: PublicInviteLinkSchema.shape.chat }), // Pick<PublicInviteLink, "chat">
   ]),
   createdAt: z.coerce.date(),
   user: MessageUserSchema.nullable(),
@@ -101,3 +101,11 @@ export const PublicMessageSchema = z.discriminatedUnion("type", [
   InviteMessageSchema,
 ]);
 export type PublicMessage = z.infer<typeof PublicMessageSchema>;
+
+// Для получания сообщений
+export const GetMessagesResultSchema = z.object({
+  messages: z.array(PublicMessageSchema),
+  hasMore: z.boolean(),
+});
+
+export type GetMessagesResult = z.infer<typeof GetMessagesResultSchema>;

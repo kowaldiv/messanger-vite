@@ -19,7 +19,7 @@ export function Messages() {
 
   const savedScrollTopRef = useRef<number>(0);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!openedChat) return;
 
     const loadMessages = async () => {
@@ -75,9 +75,9 @@ export function Messages() {
     const handleScroll = () => {
       savedScrollTopRef.current = container.scrollTop;
 
-      console.log("Scroll position:", {
-        scrollTop: container.scrollTop,
-      });
+      // console.log("Scroll position:", {
+      //   scrollTop: container.scrollTop,
+      // });
     };
 
     container.addEventListener("scroll", handleScroll);

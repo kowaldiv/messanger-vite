@@ -1,4 +1,4 @@
-import type { PublicUser } from "../schemas/user.schema";
+import { PublicUserSchema, type PublicUser } from "../schemas/user.schema";
 import { api } from "./http-client";
 
 export interface LoginData {
@@ -29,11 +29,12 @@ export interface ResetPasswordData {
 
 export const authApi = {
   // Вход
-  login: (data: LoginData) => api.post<PublicUser>("/auth/login", data),
+  login: (data: LoginData) =>
+    api.post<PublicUser>("/auth/login", data, PublicUserSchema),
 
   // Регистрация
   register: (data: RegisterData) =>
-    api.post<PublicUser>("/auth/register", data),
+    api.post<PublicUser>("/auth/register", data, PublicUserSchema),
 
   // Подтвердить почту
   // emailVerification: (data: EmailVerificationData) =>
@@ -50,5 +51,5 @@ export const authApi = {
   // Выход (опционально, если сервер аннулирует токен)
   logout: () => api.get("/auth/logout"),
 
-  refreshToken: () => api.get("/auth/refresh-token")
+  refreshToken: () => api.get("/auth/refresh-token"),
 };

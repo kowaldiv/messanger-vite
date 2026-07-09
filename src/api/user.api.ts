@@ -1,6 +1,6 @@
-import type { Session } from "react-router-dom";
 import { api } from "./http-client";
-import type { PublicUser } from "../schemas/user.schema";
+import { PublicUserSchema, type PublicUser } from "../schemas/user.schema";
+import { sessionsSchema, type Sessions } from "../schemas/session.schema";
 
 export interface AddUserAvatarData {
   avatar: File;
@@ -14,21 +14,26 @@ export interface SetPrimaryUserAvatarData {
   avatarId: string;
 }
 
-export interface UpdateUserProfile {
+export interface UpdateUserProfileData {
   username?: string;
   firstName?: string;
   lastName?: string;
   bio?: string;
 }
 
-// Пока что тут заглушки, нормальные api настрою попозже, как с беком закончу
+export interface RevokeSessionData {
+  tokenId: string;
+}
 
 export const userApi = {
   // данные пользователя (надо для psotected route, там получаются данные)
-  getUserInfo: () => api.get<PublicUser>("/user/getInfo"),
+  getUserInfo: () => api.get<PublicUser>("/user/getInfo", PublicUserSchema),
 
   // Сессии пользователя
-  devices: () => api.get<Session[]>("/user/sessions"),
+  sessions: () => api.get<Sessions>("/auth/sessions", sessionsSchema),
+
+  revokeSession: (data: RevokeSessionData) =>
+    api.delete(`/auth/sessions/${data.tokenId}`),
 
   // Добавить аватар
   addUserAvatar: (data: AddUserAvatarData) => {
@@ -47,6 +52,6 @@ export const userApi = {
     api.post("/auth/forgot-password", data),
 
   // Обновить профиль пользователя
-  updateUserProfile: (data: UpdateUserProfile) =>
+  updateUserProfile: (data: UpdateUserProfileData) =>
     api.post("/user/updateProfile", data),
 };

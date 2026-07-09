@@ -3,11 +3,18 @@ import { socket } from "@/src/socket-io/client";
 import { useOpenChatStore } from "@/src/stores/open-chat-store";
 import { Button } from "@/src/ui/components/atoms/Button";
 import { Input } from "@/src/ui/components/atoms/Input";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 export function MessageInput() {
   const chatOrUserId = useOpenChatStore((state) => state.openedChat?.id);
   const inputRef = useRef<HTMLInputElement>(null);
+  const openedChat = useOpenChatStore((state) => state.openedChat);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.value = "";
+    }
+  }, [openedChat]);
 
   function sendMessage() {
     if (!chatOrUserId) return;
