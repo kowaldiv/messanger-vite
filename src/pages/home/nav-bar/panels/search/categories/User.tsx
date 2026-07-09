@@ -28,7 +28,6 @@ export function UserCategory() {
                   chat.chatParticipant.user.id === user.id,
               );
               if (chat) {
-                console.log(JSON.stringify(chat));
                 useOpenChatStore.getState().setOpenedChat(chat);
                 useNavBarStore.getState().setIsHidden(true);
                 return;

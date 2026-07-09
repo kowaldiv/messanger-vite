@@ -10,6 +10,7 @@ export const PublicChatParticipantSchema = z.object({
   chatId: z.string(),
   role: ParticipantRoleSchema,
   lastReadMessageTime: z.coerce.date(),
+  joinedAt: z.coerce.date(),
   user: PublicUserSchema,
   unread: z.number(),
 });
@@ -65,4 +66,3 @@ export type PublicChat = z.infer<typeof PublicChatSchema>;
 
 // 🔥 Массив чатов (для ответа joinedAllChats)
 export const PublicChatsArraySchema = z.array(PublicChatSchema);
-

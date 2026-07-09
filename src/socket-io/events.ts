@@ -35,5 +35,7 @@ export interface ClientToServerEvents {
         },
   ) => void;
 
-  invite: (destinationChatId: string, chatIds: string[]) => void;
+  invite: (data: { destinationChatId: string; chatIds: string[] }) => void;
+
+  joinChat: (data: { inviteLinkToken?: string; chatId?: string }) => void;
 }

@@ -14,7 +14,6 @@ export const useChatsStore = create<ChatsStore>((set, get) => ({
   chats: [],
 
   setChats: (chats: PublicChat[]) => {
-    // Сортируем по убыванию даты последнего сообщения
     const sorted = [...chats].sort((a, b) => {
       const getLastMsgTime = (chat: PublicChat) => {
         if (chat.messages && chat.messages.length > 0) {
@@ -23,8 +22,10 @@ export const useChatsStore = create<ChatsStore>((set, get) => ({
           );
           return new Date(last.createdAt).getTime();
         }
-        // Если сообщений нет – используем дату создания чата
-        return new Date(chat.createdAt).getTime();
+        // Если сообщений нет – используем дату присоединения или создания чата
+        return new Date(
+          chat.myParticipant?.joinedAt ?? chat.createdAt,
+        ).getTime();
       };
       return getLastMsgTime(b) - getLastMsgTime(a);
     });

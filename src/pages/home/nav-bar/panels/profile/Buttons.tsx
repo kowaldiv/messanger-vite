@@ -27,12 +27,12 @@ export function Buttons() {
       },
     ],
     [
-      {
-        img: images.icons.favorites,
-        alt: "Favorites",
-        text: "Favorites",
-        onClick: () => {},
-      },
+      // {
+      //   img: images.icons.favorites,
+      //   alt: "Favorites",
+      //   text: "Favorites",
+      //   onClick: () => {},
+      // },
       {
         img: images.icons.devices,
         alt: "Devices",
