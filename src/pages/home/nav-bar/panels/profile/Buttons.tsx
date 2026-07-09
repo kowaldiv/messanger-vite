@@ -59,12 +59,13 @@ export function Buttons() {
 
   return (
     <div className="w-full grid gap-4">
-      {Buttons.map((buttons) => {
+      {Buttons.map((buttons, index) => {
         return (
-          <div className="grid gap-1">
+          <div key={index} className="grid gap-1">
             {buttons.map((button) => {
               return (
                 <Button
+                  key={button.text}
                   variant="default"
                   className="w-full flex items-center gap-4"
                   onClick={button.onClick}

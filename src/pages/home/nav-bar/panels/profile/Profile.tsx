@@ -23,10 +23,10 @@ export function Profile() {
             className={`h-full w-full object-cover`}
           />
         </div>
-        <p className="text-lg">
+        <p className="text-lg text-center">
           {firstName ? firstName : "Ivan"} {lastName ? lastName : "Ivanich"}
         </p>
-        <p className="text-sm mt-1 text-gray-400">
+        <p className="text-sm text-center mt-1 text-gray-400">
           {userName ? `@${userName}` : "@UserExample"}
         </p>
       </div>

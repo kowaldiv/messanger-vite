@@ -5,7 +5,7 @@ interface OpenChatStore {
   openedChat: PublicChat | null;
   isPreview: boolean;
 
-  setOpenedChat: (openedChat: PublicChat, isPreview?: boolean) => void;
+  setOpenedChat: (openedChat: PublicChat | null, isPreview?: boolean) => void;
   reset: () => void;
 }
 

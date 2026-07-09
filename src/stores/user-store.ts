@@ -12,6 +12,13 @@ interface UserStore {
   sessions: string[] | null;
 
   setUserInfo: (data: PublicUser) => void;
+  updateUserInfo: (data: {
+    username?: string;
+    firstName?: string;
+    lastName?: string;
+    bio?: string;
+  }) => void;
+
   // setSessions: (sessions: Session[]) => void;
 }
 
@@ -25,6 +32,7 @@ export const useUserStore = create<UserStore>((set) => ({
   sessions: null,
 
   setUserInfo: (data) => {
+    console.log(JSON.stringify(data.avatars, null, 1))
     set({
       id: data.id,
       username: data.username,
@@ -33,6 +41,15 @@ export const useUserStore = create<UserStore>((set) => ({
       bio: data.bio,
       avatars: data.avatars,
     });
+  },
+
+  updateUserInfo: (data) => {
+    set((state) => ({
+      username: data.username ?? state.username,
+      firstName: data.firstName ?? state.firstName,
+      lastName: data.lastName ?? state.lastName,
+      bio: data.bio ?? state.bio,
+    }));
   },
 
   // setSessions: (sessions) => {

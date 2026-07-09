@@ -16,10 +16,14 @@ class HttpClient {
   ): Promise<
     { success: true; data: T } | { success: false; userMessage: string }
   > {
+    const isFormData = body instanceof FormData;
+
     const config = {
       method,
       url: `${this.baseUrl}${path}`,
-      headers: { "Content-Type": "application/json" },
+      headers: isFormData
+        ? {  } // ← для FormData НЕ ставим Content-Type, axios сам всё сделает
+        : { "Content-Type": "application/json" },
       withCredentials: true,
       data: body,
     };

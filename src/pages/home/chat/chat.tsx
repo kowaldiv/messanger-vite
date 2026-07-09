@@ -1,3 +1,4 @@
+import { ChatDetails } from "./chat-details/ChatDetails";
 import { Header } from "./Header";
 import { MessageInput } from "./MessageInput";
 import { Messages } from "./messages/Messages";
@@ -8,6 +9,7 @@ export function Chat() {
       <Header />
       <Messages />
       <MessageInput />
+      <ChatDetails />
     </div>
   );
 }

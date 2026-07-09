@@ -3,76 +3,66 @@ import { AvatarSchema } from "./avatar.schema";
 import { PublicUserSchema } from "./user.schema";
 import { PublicMessageSchema } from "./message.schema";
 
-// 🔥 Enum для типа чата
-export const ChatTypeSchema = z.enum(["private", "group", "channel"]);
-export type ChatType = z.infer<typeof ChatTypeSchema>;
-
-// 🔥 Enum для роли участника
-export const ParticipantRoleSchema = z.enum(["member", "moderator", "owner"]);
+export const ParticipantRoleSchema = z.enum(["moderator", "member", "owner"]);
 export type ParticipantRole = z.infer<typeof ParticipantRoleSchema>;
 
-// 🔥 Участник чата
-export const ChatParticipantSchema = z.object({
+export const PublicChatParticipantSchema = z.object({
   chatId: z.string(),
   role: ParticipantRoleSchema,
   lastReadMessageTime: z.coerce.date(),
   user: PublicUserSchema,
-});
-export type ChatParticipant = z.infer<typeof ChatParticipantSchema>;
-
-// 🔥 Базовая информация о чате (Добавлено сюда)
-export const ChatInfoSchema = z.object({
-  id: z.string(),
-  type: ChatTypeSchema,
-  createdAt: z.coerce.date(),
-});
-export type ChatInfo = z.infer<typeof ChatInfoSchema>;
-
-// 🔥 Приватный чат
-export const PrivateChatSchema = z.object({
-  id: z.string(),
-  type: z.literal("private"),
-  createdAt: z.coerce.date(),
-  messages: z.array(PublicMessageSchema),
-  chatParticipant: ChatParticipantSchema,
+  unread: z.number(),
 });
 
-// 🔥 Групповой чат
-export const GroupChatSchema = z.object({
-  id: z.string(),
-  type: z.literal("group"),
-  title: z.string(),
-  createdAt: z.coerce.date(),
-  messages: z.array(PublicMessageSchema),
-  avatars: z.array(AvatarSchema),
-  chatParticipants: z.array(ChatParticipantSchema),
-});
+export type PublicChatParticipant = z.infer<typeof PublicChatParticipantSchema>;
 
-// 🔥 Настройки канала
+export const ChatTypeSchema = z.enum(["private", "group", "channel"]);
+export type ChatType = z.infer<typeof ChatTypeSchema>;
+
 export const ChannelSettingsSchema = z.object({
   description: z.string().nullable(),
   isPrivate: z.boolean(),
 });
-export type ChannelSettings = z.infer<typeof ChannelSettingsSchema>;
 
-// 🔥 Канал
-export const ChannelChatSchema = z.object({
+// Базовые поля для всех типов чатов
+const BaseChatSchema = z.object({
   id: z.string(),
-  type: z.literal("channel"),
-  title: z.string(),
   createdAt: z.coerce.date(),
   messages: z.array(PublicMessageSchema),
+  myParticipant: PublicChatParticipantSchema.optional(),
+});
+
+// Схема для private чата
+const PrivateChatSchema = BaseChatSchema.extend({
+  type: z.literal("private"),
+  chatParticipant: PublicChatParticipantSchema,
+});
+
+// Схема для group чата
+const GroupChatSchema = BaseChatSchema.extend({
+  type: z.literal("group"),
+  title: z.string(),
+  avatars: z.array(AvatarSchema),
+  chatParticipants: z.array(PublicChatParticipantSchema),
+});
+
+// Схема для channel чата
+const ChannelChatSchema = BaseChatSchema.extend({
+  type: z.literal("channel"),
+  title: z.string(),
   avatars: z.array(AvatarSchema),
   channelSettings: ChannelSettingsSchema,
 });
 
-// 🔥 Discriminated union для всех типов чатов
+// Discriminated union по полю type
 export const PublicChatSchema = z.discriminatedUnion("type", [
   PrivateChatSchema,
   GroupChatSchema,
   ChannelChatSchema,
 ]);
+
 export type PublicChat = z.infer<typeof PublicChatSchema>;
 
 // 🔥 Массив чатов (для ответа joinedAllChats)
 export const PublicChatsArraySchema = z.array(PublicChatSchema);
+

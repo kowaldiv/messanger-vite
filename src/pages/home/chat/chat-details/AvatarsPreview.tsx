@@ -1,19 +1,11 @@
 import { images } from "@/src/assets";
 import { Button } from "@/src/ui/components/atoms/Button";
-import { useUserStore } from "@/src/stores/user-store";
 import { useCallback, useRef, useState } from "react";
-import { userApi } from "@/src/api/user.api";
+import type { Avatar } from "@/src/schemas/avatar.schema";
 
-export function AvatarsPreview({
-  setErrorMessage,
-}: {
-  setErrorMessage: (errorMessage: string) => void;
-}) {
-  const avatars = useUserStore((state) => state.avatars);
+export function AvatarsPreview({ avatars }: { avatars: Avatar[] }) {
   const imagePlaceholderRef = useRef<HTMLDivElement>(null);
   const [openedAvatarIndex, setOpenedAvatarIndex] = useState(1);
-
-  const [isRequestPending, setIsRequestPending] = useState(false);
 
   const scrollToIndex = useCallback(
     (side: "left" | "right") => {
@@ -31,18 +23,6 @@ export function AvatarsPreview({
     },
     [openedAvatarIndex, avatars],
   );
-
-  const handleDeleteAvatar = async () => {
-    if (!avatars || !avatars[openedAvatarIndex - 1]) return;
-    setIsRequestPending(true);
-    const result = await userApi.deleteUserAvatar({
-      avatarId: avatars[openedAvatarIndex - 1].id,
-    });
-    setIsRequestPending(false);
-    if (!result.success) {
-      setErrorMessage(result.userMessage);
-    }
-  };
 
   return (
     <div className="flex w-60 h-60 relative">
@@ -62,25 +42,16 @@ export function AvatarsPreview({
         </div>
       </div>
       <Button
-        disabled={isRequestPending}
         onClick={() => scrollToIndex("left")}
-        className={`z-1 absolute w-12 h-12 top-1/2 -translate-y-1/2 left-0 ${avatars && avatars.length < 2 ? "hidden" : ""}`}
+        className={`z-1 absolute w-12 h-12 top-1/2 -translate-y-1/2 left-0 ${avatars.length < 2 ? "hidden" : ""}`}
       >
         <img src={images.icons.arrow} alt="" />
       </Button>
       <Button
-        disabled={isRequestPending}
         onClick={() => scrollToIndex("right")}
-        className={`z-1 absolute w-12 h-12 top-1/2 -translate-y-1/2 right-0 rotate-180 ${avatars && avatars.length < 2 ? "hidden" : ""}`}
+        className={`z-1 absolute w-12 h-12 top-1/2 -translate-y-1/2 right-0 rotate-180 ${avatars.length < 2 ? "hidden" : ""}`}
       >
         <img src={images.icons.arrow} alt="" />
-      </Button>
-      <Button
-        disabled={isRequestPending}
-        onClick={() => handleDeleteAvatar()}
-        className="z-1 absolute w-12 h-12 right-0"
-      >
-        <img src={images.icons.trashBin} alt="" />
       </Button>
     </div>
   );

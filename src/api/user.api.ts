@@ -15,10 +15,10 @@ export interface SetPrimaryUserAvatarData {
 }
 
 export interface UpdateUserProfile {
-  username: string | null;
-  firstName: string | null;
-  lastName: string | null;
-  bio: string | null;
+  username?: string;
+  firstName?: string;
+  lastName?: string;
+  bio?: string;
 }
 
 // Пока что тут заглушки, нормальные api настрою попозже, как с беком закончу
@@ -31,12 +31,16 @@ export const userApi = {
   devices: () => api.get<Session[]>("/user/sessions"),
 
   // Добавить аватар
-  addUserAvatar: (data: AddUserAvatarData) =>
-    api.post("/avatar/uploadUserAvatar", data),
+  addUserAvatar: (data: AddUserAvatarData) => {
+    const formData = new FormData();
+    formData.append("avatar", data.avatar); // ← добавляем файл в FormData
+
+    return api.post("/avatar/uploadUserAvatar", formData);
+  },
 
   // Удалить аватар
   deleteUserAvatar: (data: DeleteUserAvatarData) =>
-    api.post("/avatar/deleteUserAvatar", data),
+    api.get(`/avatar/deleteUserAvatar/${data.avatarId}`),
 
   // Поставить аватар пользователя главным
   setPrimaryUserAvatar: (data: SetPrimaryUserAvatarData) =>
@@ -44,5 +48,5 @@ export const userApi = {
 
   // Обновить профиль пользователя
   updateUserProfile: (data: UpdateUserProfile) =>
-    api.post("/auth/reset-password", data),
+    api.post("/user/updateProfile", data),
 };

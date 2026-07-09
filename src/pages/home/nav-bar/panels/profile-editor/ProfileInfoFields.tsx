@@ -54,14 +54,26 @@ export function ProfileInfoFields({
     if (!isEdited) return;
     setIsRequestPending(true);
     const result = await userApi.updateUserProfile({
-      username: changedUsername,
-      firstName: changedFirstName,
-      lastName: changedLastName,
-      bio: changedBio,
+      username:
+        changedUsername !== username ? changedUsername || undefined : undefined,
+      firstName:
+        changedFirstName !== firstName
+          ? changedFirstName || undefined
+          : undefined,
+      lastName:
+        changedLastName !== lastName ? changedLastName || undefined : undefined,
+      bio: changedBio !== bio ? changedBio || undefined : undefined,
     });
     setIsRequestPending(false);
     if (!result.success) {
       setErrorMessage(result.userMessage);
+    } else {
+      useUserStore.getState().updateUserInfo({
+        username: changedUsername || undefined,
+        firstName: changedFirstName || undefined,
+        lastName: changedLastName || undefined,
+        bio: changedBio || undefined,
+      });
     }
   };
 
@@ -70,9 +82,11 @@ export function ProfileInfoFields({
       <div className="flex flex-col gap-2">
         {inputs.map((input) => {
           return (
-            <div className="grid gap-1">
+            <div key={input.text} className="grid gap-1">
               <h2 className="ml-2 text-sm text-gray-400">{input.text}</h2>
               <Input
+                value={input.value || ""}
+                onChange={(e) => input.onChange(e.target.value)}
                 disabled={isRequestPending}
                 className="text-sm"
               />

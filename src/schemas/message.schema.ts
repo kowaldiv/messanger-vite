@@ -25,7 +25,6 @@ export type Attachment = z.infer<typeof AttachmentSchema>;
 
 // 🔥 Реакция на сообщение
 export const MessageReactionSchema = z.object({
-  id: z.string(),
   userId: z.string().nullable(),
   messageId: z.string(),
   emoji: z.string(),

@@ -33,10 +33,10 @@ export function Header() {
       </Button>
       <Button
         className="hidden sm:block"
-        onClick={() => useNavBarStore.getState().setIsHidden(false)}
+        onClick={() => useOpenChatStore.getState().setOpenedChat(null)}
       >
         <img
-          src={images.icons.arrow}
+          src={images.icons.close}
           className="min-w-6 min-h-6 max-w-6 max-h-6"
           alt="menu button"
         />

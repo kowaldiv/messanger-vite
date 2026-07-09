@@ -32,7 +32,6 @@ export function useMessageSocketEvents() {
       if (success) {
         console.log("💬 New message:", message);
         addMessage(message.chatId, message);
-        console.log('fasdfdsf')
         useChatsStore.getState().moveChatToTop(message.chatId)
       }
     };

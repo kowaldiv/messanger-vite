@@ -2,6 +2,7 @@ import { Button } from "@/src/ui/components/atoms/Button";
 import { useRef, useState } from "react";
 import { userApi } from "@/src/api/user.api";
 
+const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
 const MAX_SIZE_MB = 5;
 const MAX_SIZE_BYTES = MAX_SIZE_MB * 1024 * 1024;
 
@@ -21,6 +22,14 @@ export function AddNewAvatar({
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      setErrorMessage(
+        "Неподдерживаемый формат файла. Разрешены: JPEG, PNG, WebP, GIF",
+      );
+      return;
+    }
+
     if (file.size > MAX_SIZE_BYTES) {
       setErrorMessage(
         `Файл слишком большой. Максимальный размер: ${MAX_SIZE_MB} МБ`,
