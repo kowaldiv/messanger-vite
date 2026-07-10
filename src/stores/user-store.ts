@@ -20,9 +20,11 @@ interface UserStore {
     bio?: string;
   }) => void;
 
-  reset: () => void;
   setSessions: (sessions: Sessions) => void;
   deleteSession: (id: string) => void;
+  addAvatarFirst: (avatar: Avatar) => void;
+  deleteAvatar: (id: string) => void;
+  reset: () => void;
 }
 
 export const useUserStore = create<UserStore>((set, get) => ({
@@ -54,6 +56,28 @@ export const useUserStore = create<UserStore>((set, get) => ({
     }));
   },
 
+  setSessions: (sessions) => {
+    set({ sessions });
+  },
+
+  deleteSession: (id: string) => {
+    set({
+      sessions: get().sessions?.filter((session) => session.id !== id),
+    });
+  },
+
+  addAvatarFirst: (avatar: Avatar) => {
+    set((state) => ({
+      avatars: state.avatars ? [avatar, ...state.avatars] : [avatar],
+    }));
+  },
+
+  deleteAvatar: (id: string) => {
+    set((state) => ({
+      avatars: state.avatars?.filter((avatar) => avatar.id !== id) ?? null,
+    }));
+  },
+
   reset: () => {
     set({
       id: null,
@@ -63,16 +87,6 @@ export const useUserStore = create<UserStore>((set, get) => ({
       bio: null,
       avatars: null,
       sessions: null,
-    });
-  },
-
-  setSessions: (sessions) => {
-    set({ sessions });
-  },
-
-  deleteSession: (id: string) => {
-    set({
-      sessions: get().sessions?.filter((session) => session.id !== id),
     });
   },
 }));

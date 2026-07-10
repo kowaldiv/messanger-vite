@@ -9,11 +9,12 @@ export function useMessageSocketEvents() {
   const addMessage = useMessagesStore((state) => state.addMessage);
 
   useEffect(() => {
-    // 🔥 Новое сообщение
+    // Новое сообщение
     const handleNewMessage = (rawData: {
       success: boolean;
       message: PublicMessage;
     }) => {
+
       const ResponseSchema = z.object({
         success: z.boolean(),
         message: PublicMessageSchema,
@@ -22,13 +23,13 @@ export function useMessageSocketEvents() {
       const result = ResponseSchema.safeParse(rawData);
 
       if (!result.success) {
-        console.error("❌ Invalid newMessage data:", result);
-        console.error("📦 Raw data was:", rawData);
+        console.error("Invalid newMessage data:", result);
+        console.error("Raw data was:", rawData);
         return;
       }
 
       const { success, message } = result.data;
-
+      console.log(message)
       if (success) {
         console.log("💬 New message:", message);
         addMessage(message.chatId, message);

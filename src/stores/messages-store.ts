@@ -6,6 +6,7 @@ interface MessagesStore {
 
   addMessage: (chatId: string, message: PublicMessage) => void;
   getMessagesByChatId: (chatId: string) => PublicMessage[];
+  removeMessagesForChat: (chatId: string) => void;
   reset: () => void;
 }
 
@@ -59,6 +60,12 @@ export const useMessagesStore = create<MessagesStore>((set, get) => ({
   getMessagesByChatId: (chatId: string) => {
     const chat = get().messages.find((m) => m.chatId === chatId);
     return chat?.messages || [];
+  },
+
+  removeMessagesForChat: (chatId: string) => {
+    set((state) => ({
+      messages: state.messages.filter((m) => m.chatId !== chatId),
+    }));
   },
 
   reset: () => {

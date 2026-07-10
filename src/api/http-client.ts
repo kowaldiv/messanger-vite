@@ -104,7 +104,7 @@ class HttpClient {
     return this.request<T>("post", path, body, schema);
   }
 
-  async put<T>(path: string, body: unknown) {
+  async put<T>(path: string, body?: unknown) {
     return this.request<T>("put", path, body);
   }
 

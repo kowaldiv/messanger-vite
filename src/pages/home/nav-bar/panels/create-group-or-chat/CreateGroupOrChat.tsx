@@ -10,6 +10,8 @@ export function CreateGroupOrChat() {
   const [isPrivate, setIsPrivate] = useState<boolean>(false);
 
   const create = async () => {
+    if (!title) return;
+
     if (groupOrChat === "group") {
       socket.emit("createChat", {
         type: groupOrChat,

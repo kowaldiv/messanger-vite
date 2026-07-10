@@ -86,7 +86,7 @@ export const InviteMessageSchema = z.object({
   type: z.literal("invite"),
   metadata: z.union([
     PublicInviteLinkSchema,
-    z.object({ chat: PublicInviteLinkSchema.shape.chat }), // Pick<PublicInviteLink, "chat">
+    z.object({ chat: PublicInviteLinkSchema.shape.chat }),
   ]),
   createdAt: z.coerce.date(),
   user: MessageUserSchema.nullable(),

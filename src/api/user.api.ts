@@ -1,6 +1,7 @@
 import { api } from "./http-client";
 import { PublicUserSchema, type PublicUser } from "../schemas/user.schema";
 import { sessionsSchema, type Sessions } from "../schemas/session.schema";
+import { AvatarSchema, type Avatar } from "../schemas/avatar.schema";
 
 export interface AddUserAvatarData {
   avatar: File;
@@ -40,7 +41,7 @@ export const userApi = {
     const formData = new FormData();
     formData.append("avatar", data.avatar); // ← добавляем файл в FormData
 
-    return api.post("/avatar/uploadUserAvatar", formData);
+    return api.post<Avatar>("/avatar/uploadUserAvatar", formData, AvatarSchema);
   },
 
   // Удалить аватар

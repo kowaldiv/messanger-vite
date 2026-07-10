@@ -4,6 +4,7 @@ import { Button } from "@/src/ui/components/atoms/Button";
 
 export function JoinChannel() {
   const openChat = useOpenChatStore((state) => state.openedChat);
+  const myParticipant = openChat?.myParticipant;
 
   const handleJoinChannel = async () => {
     socket.emit("joinChat", {
@@ -11,10 +12,22 @@ export function JoinChannel() {
     });
   };
 
+  const handleLeaveChannel = async () => {
+    if (!openChat) return;
+    socket.emit("leaveChat", {
+      chatId: openChat.id,
+    });
+  };
+
   return (
     <div className="w-full flex items-center justify-center">
-      <Button onClick={handleJoinChannel} variant="primary">
-        Присоедениться в сообщество
+      <Button
+        onClick={myParticipant ? handleLeaveChannel : handleJoinChannel}
+        variant={myParticipant ? "default" : "primary"}
+      >
+        {myParticipant
+          ? "Отписаться от сообщества"
+          : "Присоедениться в сообщество"}
       </Button>
     </div>
   );

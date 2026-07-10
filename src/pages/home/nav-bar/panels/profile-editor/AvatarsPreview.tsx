@@ -34,13 +34,16 @@ export function AvatarsPreview({
 
   const handleDeleteAvatar = async () => {
     if (!avatars || !avatars[openedAvatarIndex - 1]) return;
+    const id = avatars[openedAvatarIndex - 1].id;
     setIsRequestPending(true);
     const result = await userApi.deleteUserAvatar({
-      avatarId: avatars[openedAvatarIndex - 1].id,
+      avatarId: id,
     });
     setIsRequestPending(false);
     if (!result.success) {
       setErrorMessage(result.userMessage);
+    } else {
+      useUserStore.getState().deleteAvatar(id);
     }
   };
 

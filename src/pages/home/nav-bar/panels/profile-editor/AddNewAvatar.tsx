@@ -1,6 +1,7 @@
 import { Button } from "@/src/ui/components/atoms/Button";
 import { useRef, useState } from "react";
 import { userApi } from "@/src/api/user.api";
+import { useUserStore } from "@/src/stores/user-store";
 
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
 const MAX_SIZE_MB = 5;
@@ -41,6 +42,8 @@ export function AddNewAvatar({
     setIsRequestPending(false);
     if (!result.success) {
       setErrorMessage(result.userMessage);
+    } else {
+      useUserStore.getState().addAvatarFirst(result.data);
     }
   };
 

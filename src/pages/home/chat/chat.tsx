@@ -1,6 +1,7 @@
 import { Header } from "./Header";
 import { Messages } from "./messages/Messages";
 import { Bottom } from "./bottom/Bottom";
+import { ChatDetails } from "./chat-details/ChatDetails";
 
 export function Chat() {
   return (
@@ -8,6 +9,7 @@ export function Chat() {
       <Header />
       <Messages />
       <Bottom />
+      <ChatDetails />
     </div>
   );
 }

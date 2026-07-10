@@ -5,6 +5,8 @@ import { TextMessage } from "./variants/Text";
 import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import { useUserStore } from "@/src/stores/user-store";
 import { messageApi } from "@/src/api/message.api";
+import { InviteMessage } from "./variants/Invite";
+import { JoinedMessage } from "./variants/Joined";
 
 export function Messages() {
   const openedChat = useOpenChatStore((state) => state.openedChat);
@@ -165,6 +167,12 @@ export function Messages() {
         {[...messages].reverse().map((message, index) => {
           if (message.type === "text")
             return <TextMessage key={index} message={message} />;
+          if (message.type === "invite") {
+            return <InviteMessage key={index} message={message} />;
+          }
+          if (message.type === "joined") {
+            return <JoinedMessage key={index} message={message} />;
+          }
           return null;
         })}
 

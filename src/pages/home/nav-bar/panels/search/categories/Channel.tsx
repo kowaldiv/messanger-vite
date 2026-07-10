@@ -25,7 +25,7 @@ export function ChannelCategory() {
               src={
                 chat.avatars[0]
                   ? chat.avatars[0].avatarUrl
-                  : images.icons.avatar
+                  : images.icons.groupAvatar
               }
             />
             <p>{chat.title}</p>

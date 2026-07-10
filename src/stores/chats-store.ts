@@ -1,12 +1,15 @@
 import { create } from "zustand";
-import type { PublicChat } from "../schemas/chat.schema";
+import type { PublicChat, PublicChatParticipant } from "../schemas/chat.schema";
 
 interface ChatsStore {
   chats: PublicChat[];
 
   setChats: (chats: PublicChat[]) => void;
   addChat: (chat: PublicChat) => void;
+  removeChat: (chatId: string) => void;
   moveChatToTop: (chatId: string) => void;
+  addParticipantToChat: (chatParticipant: PublicChatParticipant) => void;
+  removeParticipantFromChat: (chatId: string, userId: string) => void;
   reset: () => void;
 }
 
@@ -34,6 +37,12 @@ export const useChatsStore = create<ChatsStore>((set, get) => ({
 
   addChat: (chat: PublicChat) => set({ chats: [chat, ...get().chats] }),
 
+  removeChat: (chatId: string) => {
+    set((state) => ({
+      chats: state.chats.filter((c) => c.id !== chatId),
+    }));
+  },
+
   moveChatToTop: (chatId: string) => {
     const { chats } = get();
     const index = chats.findIndex((c) => c.id === chatId);
@@ -46,5 +55,36 @@ export const useChatsStore = create<ChatsStore>((set, get) => ({
     ];
     set({ chats: newChats });
   },
+
+  addParticipantToChat: (chatParticipant: PublicChatParticipant) => {
+    set((state) => ({
+      chats: state.chats.map((chat) => {
+        if (chat.type !== "group" || chat.id !== chatParticipant.chatId) {
+          return chat;
+        }
+        return {
+          ...chat,
+          chatParticipants: [...chat.chatParticipants, chatParticipant],
+        };
+      }),
+    }));
+  },
+
+  removeParticipantFromChat: (chatId: string, userId: string) => {
+    set((state) => ({
+      chats: state.chats.map((chat) => {
+        if (chat.type !== "group" || chat.id !== chatId) {
+          return chat;
+        }
+        return {
+          ...chat,
+          chatParticipants: chat.chatParticipants.filter(
+            (p) => p.user.id !== userId,
+          ),
+        };
+      }),
+    }));
+  },
+
   reset: () => set({ chats: [] }),
 }));

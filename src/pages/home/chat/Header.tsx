@@ -1,4 +1,5 @@
 import { images } from "@/src/assets";
+import { useChatDetailsStore } from "@/src/stores/chat-details-store";
 import { useNavBarStore } from "@/src/stores/nav-bar-store";
 import { useOpenChatStore } from "@/src/stores/open-chat-store";
 import { Button } from "@/src/ui/components/atoms/Button";
@@ -48,7 +49,7 @@ export function Header() {
             : chat.title}
         </p>
       </div>
-      <Button>
+      <Button onClick={() => useChatDetailsStore.getState().setIsOpen(true)}>
         <img
           src={getAvatarUrl()}
           alt="avatar"
