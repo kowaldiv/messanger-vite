@@ -12,6 +12,7 @@ export function createChatPreview(user: PublicUser): PublicChat {
       user: user,
       role: "member",
       lastReadMessageTime: new Date(),
+      joinedAt: new Date(),
       unread: 0,
     },
   };
