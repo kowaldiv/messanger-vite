@@ -1,12 +1,22 @@
 import { useEffect } from "react";
 import { socket } from "../socket-io/client";
 import { useMessagesStore } from "../stores/messages-store";
-import { PublicMessageSchema, type PublicMessage } from "../schemas/message.schema";
+import {
+  PublicMessageSchema,
+  type PublicMessage,
+} from "../schemas/message.schema";
 import z from "zod";
 import { useChatsStore } from "../stores/chats-store";
+import { useOpenChatStore } from "../stores/open-chat-store";
+import { useUserStore } from "../stores/user-store";
 
 export function useMessageSocketEvents() {
   const addMessage = useMessagesStore((state) => state.addMessage);
+  const openChat = useOpenChatStore((state) => state.openedChat);
+  const userId = useUserStore((state) => state.id);
+  const incrementUnreadInChat = useChatsStore(
+    (state) => state.incrementUnreadInChat,
+  );
 
   useEffect(() => {
     // Новое сообщение
@@ -14,7 +24,6 @@ export function useMessageSocketEvents() {
       success: boolean;
       message: PublicMessage;
     }) => {
-
       const ResponseSchema = z.object({
         success: z.boolean(),
         message: PublicMessageSchema,
@@ -29,11 +38,16 @@ export function useMessageSocketEvents() {
       }
 
       const { success, message } = result.data;
-      console.log(message)
+      console.log(message);
       if (success) {
         console.log("💬 New message:", message);
         addMessage(message.chatId, message);
-        useChatsStore.getState().moveChatToTop(message.chatId)
+        useChatsStore.getState().moveChatToTop(message.chatId);
+        if (openChat?.id !== message.chatId) {
+          if (message.type === "joined" || message.user?.id !== userId) {
+            incrementUnreadInChat(message.chatId);
+          }
+        }
       }
     };
 
@@ -42,5 +56,5 @@ export function useMessageSocketEvents() {
     return () => {
       socket.off("newMessage", handleNewMessage);
     };
-  }, [addMessage]);
+  }, [addMessage, incrementUnreadInChat, openChat, userId]);
 }

@@ -17,4 +17,7 @@ export const chatApi = {
   // Передать права владельца
   transferOwnership: (chatId: string, newOwnerId: string) =>
     api.put(`/chats/${chatId}/transfer-ownership`, { newOwnerId }),
+
+  updateLastReadMessageTime: (chatId: string) =>
+    api.put(`/chat/${chatId}/last-read`),
 };

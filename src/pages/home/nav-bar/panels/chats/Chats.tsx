@@ -91,7 +91,7 @@ export function Chats() {
               useNavBarStore.getState().setIsHidden(true);
             }}
             key={chat.id}
-            className="flex items-center gap-3 p-4 bg-secondary rounded-xl"
+            className="flex items-center gap-3 p-4 bg-secondary rounded-xl relative"
           >
             {/* Аватарка */}
             <div className="w-10 h-10 rounded-full flex items-center justify-center">
@@ -101,6 +101,11 @@ export function Chats() {
                 className="w-full h-full object-cover rounded-full"
               />
             </div>
+            {chat.myParticipant?.unread !== 0 && (
+              <div className="z-50 p-0.5 px-1.5 min-w-6 absolute rounded-full bg-amber-300 top-2 right-3.75">
+                <p className="text-black">{chat.myParticipant?.unread}</p>
+              </div>
+            )}
             {/* Контент */}
             <div className="flex-1 min-w-0">
               <div className="mb-1">

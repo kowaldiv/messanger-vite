@@ -11,6 +11,8 @@ interface ChatsStore {
   addParticipantToChat: (chatParticipant: PublicChatParticipant) => void;
   removeParticipantFromChat: (chatId: string, userId: string) => void;
   updateUserLastSeen: (userId: string, lastSeen: Date) => void;
+  resetUnreadInChat: (chatId: string) => void;
+  incrementUnreadInChat: (chatId: string) => void;
   reset: () => void;
 }
 
@@ -123,6 +125,40 @@ export const useChatsStore = create<ChatsStore>((set, get) => ({
         }
 
         return updatedChat;
+      }),
+    }));
+  },
+
+  resetUnreadInChat: (chatId: string) => {
+    set((state) => ({
+      chats: state.chats.map((chat) => {
+        if (chat.id !== chatId || !chat.myParticipant) {
+          return chat;
+        }
+        return {
+          ...chat,
+          myParticipant: {
+            ...chat.myParticipant,
+            unread: 0,
+          },
+        };
+      }),
+    }));
+  },
+
+  incrementUnreadInChat: (chatId: string) => {
+    set((state) => ({
+      chats: state.chats.map((chat) => {
+        if (chat.id !== chatId || !chat.myParticipant) {
+          return chat;
+        }
+        return {
+          ...chat,
+          myParticipant: {
+            ...chat.myParticipant,
+            unread: (chat.myParticipant.unread || 0) + 1,
+          },
+        };
       }),
     }));
   },
