@@ -1,5 +1,5 @@
+import { PublicUserSchema, type PublicUser } from "../schemas/user.schema";
 import { api } from "./http-client";
-
 
 export interface LoginData {
   email: string;
@@ -7,14 +7,16 @@ export interface LoginData {
 }
 
 export interface RegisterData {
-  name: string;
   email: string;
   password: string;
+  firstName: string;
+  lastName?: string;
+  username: string;
 }
 
-export interface EmailVerificationData {
-  code: string;
-}
+// export interface EmailVerificationData {
+//   code: string;
+// }
 
 export interface ForgotPasswordData {
   email: string;
@@ -27,30 +29,27 @@ export interface ResetPasswordData {
 
 export const authApi = {
   // Вход
-  login: (data: LoginData) => 
-    api.post("/auth/login", data),
-  
+  login: (data: LoginData) =>
+    api.post<PublicUser>("/auth/login", data, PublicUserSchema),
+
   // Регистрация
-  register: (data: RegisterData) => 
-    api.post("/auth/register", data),
-    
+  register: (data: RegisterData) =>
+    api.post<PublicUser>("/auth/register", data, PublicUserSchema),
+
   // Подтвердить почту
-  emailVerification: (data: EmailVerificationData) => 
-    api.post("/auth/register", data),
-  
+  // emailVerification: (data: EmailVerificationData) =>
+  //   api.post("/auth/register", data),
+
   // Запрос на восстановление (отправляем email)
-  forgotPassword: (data: ForgotPasswordData) => 
-    api.post<{ message: string }, ForgotPasswordData>("/auth/forgot-password", data),
-  
+  forgotPassword: (data: ForgotPasswordData) =>
+    api.post("/auth/forgot-password", data),
+
   // Сброс пароля (с токеном из письма)
-  resetPassword: (data: ResetPasswordData) => 
-    api.post<{ message: string }, ResetPasswordData>("/auth/reset-password", data),
-  
-  // Обновление токена (если нужно)
-  refreshToken: () => 
-    api.get<{ token: string }>("/auth/refresh"),
-  
+  resetPassword: (data: ResetPasswordData) =>
+    api.post("/auth/reset-password", data),
+
   // Выход (опционально, если сервер аннулирует токен)
-  logout: () => 
-    api.post("/auth/logout", {}),
+  logout: () => api.get("/auth/logout"),
+
+  refreshToken: () => api.get("/auth/refresh-token"),
 };

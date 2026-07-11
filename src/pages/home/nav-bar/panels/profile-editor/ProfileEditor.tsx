@@ -1,16 +1,18 @@
 import { useState } from "react";
-import { AvatarPreview } from "../../../../../pages/home/nav-bar/panels/profile-editor/AvatarsPreview";
+import { AvatarsPreview } from "../../../../../pages/home/nav-bar/panels/profile-editor/AvatarsPreview";
 import { AddNewAvatar } from "../../../../../pages/home/nav-bar/panels/profile-editor/AddNewAvatar";
 import { ProfileInfoFields } from "./ProfileInfoFields";
 
 export function ProfileEditor() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+  
+
   return (
     <div className="w-full mt-12">
       <div className="flex flex-col items-center mb-8">
         <div className="flex flex-col items-center mb-2 w-full">
-          <AvatarPreview setErrorMessage={setErrorMessage} />
+          <AvatarsPreview setErrorMessage={setErrorMessage} />
           <AddNewAvatar setErrorMessage={setErrorMessage} />
           {errorMessage ? (
             <p className="text-center text-sm sm:text-base text-red-600 mb-2">
