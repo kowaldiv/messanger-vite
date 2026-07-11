@@ -21,6 +21,32 @@ function getSubtitle(lastMessage: PublicMessage | undefined): string {
   }
 }
 
+const formatMessageDate = (date: Date) => {
+  const now = new Date();
+  const messageDate = new Date(date);
+
+  // Сегодня
+  if (messageDate.toDateString() === now.toDateString()) {
+    return messageDate.toLocaleTimeString("ru-RU", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  }
+
+  // Вчера
+  const yesterday = new Date(now);
+  yesterday.setDate(yesterday.getDate() - 1);
+  if (messageDate.toDateString() === yesterday.toDateString()) {
+    return "Вчера";
+  }
+
+  // Другие дни
+  return messageDate.toLocaleDateString("ru-RU", {
+    day: "2-digit",
+    month: "2-digit",
+  });
+};
+
 export function Chats() {
   const chats = useChatsStore((state) => state.chats);
   const messages = useMessagesStore((state) => state.messages);
@@ -85,7 +111,7 @@ export function Chats() {
                 <span className="text-xs ml-2 shrink-0">
                   {lastMessage && (
                     <span className="text-xs">
-                      {new Date(lastMessage.createdAt).toLocaleDateString()}
+                      {formatMessageDate(lastMessage.createdAt)}
                     </span>
                   )}
                 </span>

@@ -7,6 +7,7 @@ import { createChatPreview } from "@/src/utils/create-chat-preview";
 import { useNavBarStore } from "@/src/stores/nav-bar-store";
 import { useChatsStore } from "@/src/stores/chats-store";
 import { socket } from "@/src/socket-io/client";
+import { formatLastSeen } from "@/src/utils/format-last-seen";
 
 export function ChatParticipantsList() {
   const openChat = useOpenChatStore((state) => state.openedChat);
@@ -45,9 +46,12 @@ export function ChatParticipantsList() {
                       className="w-8 h-8 rounded-full bg-gray-300 shrink-0"
                       alt="avatar"
                     />
-                    <p>
-                      {participant.user.firstName} {participant.user.lastName}
-                    </p>
+                    <div>
+                      <p>
+                        {participant.user.firstName} {participant.user.lastName}
+                      </p>
+                      <p className="text-left text-xs">{formatLastSeen(participant.user.lastSeen)}</p>
+                    </div>
                   </div>
                   <p>
                     {participant.role === "member"

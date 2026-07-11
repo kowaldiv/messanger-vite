@@ -25,6 +25,8 @@ export interface ServerToClientEvents {
     chatId: string;
     newOwnerId: string;
   }) => void;
+
+  "user:lastSeenUpdated": (data: { userId: string; lastSeen: string }) => void;
 }
 
 // Клиент -> Сервер (то, что отправляем)
@@ -57,4 +59,6 @@ export interface ClientToServerEvents {
   leaveChat: (data: { chatId: string }) => void;
 
   transferOwnership: (data: { chatId: string; newOwnerId: string }) => void;
+
+  updateLastSeen: () => void;
 }

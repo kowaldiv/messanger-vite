@@ -3,6 +3,8 @@ import { SocketContext } from "./socket-context";
 import { socket, connectSocket, disconnectSocket } from "../socket-io/client";
 import { useChatSocketEvents } from "../hooks/useChatSocketEvents";
 import { useMessageSocketEvents } from "../hooks/useMessageSocketEvents";
+import { useLastSeenSocketEvents } from "../hooks/useLastSeenSocketEvents";
+import { useLastSeenUpdater } from "../hooks/useLastSeenUpdater";
 
 interface Props {
   children: ReactNode;
@@ -16,6 +18,8 @@ export function SocketProvider({ children, isAuthenticated }: Props) {
 
   useChatSocketEvents();
   useMessageSocketEvents();
+  useLastSeenSocketEvents();
+  useLastSeenUpdater();
 
   useEffect(() => {
     if (!isAuthenticated) {

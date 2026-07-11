@@ -13,7 +13,7 @@ export function ChatDetails() {
 
   useEffect(() => {
     useChatDetailsStore.getState().setIsOpen(false);
-  }, [chat]);
+  }, [chat?.id]);
 
   if (!chat || !isOpen) return;
 

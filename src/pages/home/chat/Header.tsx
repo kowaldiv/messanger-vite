@@ -3,10 +3,28 @@ import { useChatDetailsStore } from "@/src/stores/chat-details-store";
 import { useNavBarStore } from "@/src/stores/nav-bar-store";
 import { useOpenChatStore } from "@/src/stores/open-chat-store";
 import { Button } from "@/src/ui/components/atoms/Button";
+import { formatLastSeen } from "@/src/utils/format-last-seen";
+import { useMemo } from "react";
 
 export function Header() {
   const chat = useOpenChatStore((state) => state.openedChat);
-  if (!chat) return;
+
+  // Извлекаем lastSeen отдельно для триггера обновления
+  const lastSeen = useOpenChatStore((state) => {
+    const openedChat = state.openedChat;
+    // Проверяем, что это private чат
+    if (openedChat?.type === "private") {
+      return openedChat.chatParticipant?.user?.lastSeen;
+    }
+    return null;
+  });
+
+  const formattedLastSeen = useMemo(() => {
+    if (!lastSeen) return null;
+    return formatLastSeen(lastSeen);
+  }, [lastSeen]);
+
+  if (!chat) return null;
 
   const getAvatarUrl = () => {
     if (chat.type === "private") {
@@ -48,6 +66,11 @@ export function Header() {
             ? `${chat.chatParticipant.user.firstName} ${chat.chatParticipant.user.lastName}`
             : chat.title}
         </p>
+        {chat.type === "private" && (
+          <p className="text-center">
+            {formattedLastSeen}
+          </p>
+        )}
       </div>
       <Button onClick={() => useChatDetailsStore.getState().setIsOpen(true)}>
         <img

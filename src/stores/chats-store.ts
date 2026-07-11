@@ -10,6 +10,7 @@ interface ChatsStore {
   moveChatToTop: (chatId: string) => void;
   addParticipantToChat: (chatParticipant: PublicChatParticipant) => void;
   removeParticipantFromChat: (chatId: string, userId: string) => void;
+  updateUserLastSeen: (userId: string, lastSeen: Date) => void;
   reset: () => void;
 }
 
@@ -82,6 +83,46 @@ export const useChatsStore = create<ChatsStore>((set, get) => ({
             (p) => p.user.id !== userId,
           ),
         };
+      }),
+    }));
+  },
+
+  updateUserLastSeen: (userId: string, lastSeen: Date) => {
+    set((state) => ({
+      chats: state.chats.map((chat) => {
+        // Клонируем чат
+        const updatedChat = { ...chat };
+
+        // 1. Обновляем в myParticipant (если это текущий пользователь)
+        if (updatedChat.myParticipant?.user.id === userId) {
+          updatedChat.myParticipant = {
+            ...updatedChat.myParticipant,
+            user: {
+              ...updatedChat.myParticipant.user,
+              lastSeen: lastSeen,
+            },
+          };
+        }
+
+        // 2. Обновляем в chatParticipants (для групп и каналов)
+        if (updatedChat.type === "group" && updatedChat.chatParticipants) {
+          updatedChat.chatParticipants = updatedChat.chatParticipants.map(
+            (participant) => {
+              if (participant.user.id === userId) {
+                return {
+                  ...participant,
+                  user: {
+                    ...participant.user,
+                    lastSeen: lastSeen,
+                  },
+                };
+              }
+              return participant;
+            },
+          );
+        }
+
+        return updatedChat;
       }),
     }));
   },
