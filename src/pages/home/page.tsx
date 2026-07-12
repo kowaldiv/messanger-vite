@@ -1,5 +1,5 @@
 import { useNavBarStore } from "@/src/stores/nav-bar-store";
-import { Chat } from "./chat/Chatas";
+import { Chat } from "./chat/Chat";
 import { NavBar } from "./nav-bar/NavBar";
 
 export default function Home() {
